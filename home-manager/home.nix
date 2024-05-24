@@ -126,6 +126,10 @@ in
 
   home.file.".config/hypr/hyprland.conf".source = ./hyprland.conf; # symlink hyprland config
 
+
+  home.file.".config/rofi/themes/rounded-nord.rasi".source = ./rounded-nord.rasi; # symlink rofi theme
+  home.file.".config/rofi/themes/rounded-common.rasi".source = ./rounded-common.rasi; # symlink rofi theme
+
   gtk.enable = true;
   gtk.cursorTheme.package = pkgs.bibata-cursors;
   gtk.cursorTheme.name = "Bibata-Modern-Ice";
