@@ -54,7 +54,7 @@ in
   # programs.neovim.enable = true;
   home.packages = with pkgs; [
     discord
-    neovim
+    fastfetch
   ];
 
   home.sessionVariables = {
@@ -118,6 +118,10 @@ in
       name = "FiraCode Nerd Font";
       size = 10;
       };
+  };
+
+  programs.neovim = {
+    enable = true;
   };
 
   # Nicely reload system units when changing configs

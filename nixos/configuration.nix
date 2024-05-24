@@ -11,8 +11,15 @@
     ];
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader = {
+    efi.canTouchEfiVariables = true;
+    grub = {
+      enable = true;
+      devices = [ "nodev" ];
+      efiSupport = true;
+      useOSProber = true;
+    };
+  };
 
   networking.hostName = "nixos"; # Define your hostname.
 
@@ -26,7 +33,10 @@
   networking.networkmanager.enable = true;
 
   # Set your time zone.
-  time.timeZone = "Europe/Dublin";
+  time = {
+    timeZone = "Europe/Dublin";
+    hardwareClockInLocalTime = true;
+  };
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_GB.UTF-8";
@@ -67,12 +77,45 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    wireplumber.enable = true;
+    wireplumber.configPackages = [
+      (pkgs.writeTextDir "share/wireplumber/wireplumber.conf.d/alsa.conf" ''
+        monitor.alsa.rules = [
+          {
+            matches = [
+              {
+                device.name = "~alsa_card.*"
+              }
+            ]
+            actions = {
+              update-props = {
+                # Device settings
+                api.alsa.use-acp = true
+              }
+            }
+          }
+          {
+            matches = [
+              {
+                node.name = "~alsa_input.*"
+              }
+              {
+                node.name = "~alsa_output.*"
+              }
+            ]
+            actions = {
+            # Node settings
+              update-props = {
+                session.suspend-timeout-seconds = 0
+              }
+            }
+          }
+        ]
+      '')
+    ];
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
 
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -100,10 +143,17 @@
   };
 
   environment.sessionVariables = {
-  # If your cursor becomes invisible
+    # If your cursor becomes invisible
     WLR_NO_HARDWARE_CURSORS = "1";
-  #  Hint electron apps to use wayland
+    # Hint electron apps to use wayland
     NIXOS_OZONE_WL = "1";
+    MOZ_ENABLE_WAYLAND = "1"; # for Firefox to run on wayland
+    MOZ_WEBRENDERER = "1"; # same
+    # XDG Base Directory Defaults
+    XDG_CACHE_HOME = "$HOME/.cache";
+    XDG_CONFIG_HOME = "$HOME/.config";
+    XDG_DATA_HOME = "$HOME/.local/share";
+    XDG_STATE_HOME = "$HOME/.local/state";
   };
 
   #XDG portal
@@ -140,7 +190,14 @@
     home-manager
   ];
 
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+  
+
+  stylix.cursor.package = pkgs.bibata-cursors;
+  stylix.cursor.name = "Bibata-Modern-Ice";
+
   fonts.packages = with pkgs; [ (nerdfonts.override { fonts = [ "FiraCode" ]; }) ];
+
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
