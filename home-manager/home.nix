@@ -124,6 +124,8 @@ in
     enable = true;
   };
 
+  home.file.".config/hypr/hyprland.conf".source = ./hyprland.conf;
+
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
