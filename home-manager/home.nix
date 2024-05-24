@@ -92,7 +92,7 @@ in
       {
         name = "powerlevel10k-config";
         src = ./p10k;
-        file = "p10k.zsh";
+  file = "p10k.zsh";
       }
       {
         name = "zsh-powerlevel10k";
@@ -124,7 +124,12 @@ in
     enable = true;
   };
 
-  home.file.".config/hypr/hyprland.conf".source = ./hyprland.conf;
+  home.file.".config/hypr/hyprland.conf".source = ./hyprland.conf; # symlink hyprland config
+
+  gtk.enable = true;
+  gtk.cursorTheme.package = pkgs.bibata-cursors;
+  gtk.cursorTheme.name = "Bibata-Modern-Ice";
+  
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";

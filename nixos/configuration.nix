@@ -129,7 +129,10 @@
     shell = pkgs.zsh;
   };
 
-  services.displayManager.sddm.enable = true; #This line enables sddm
+  services.displayManager.sddm = {
+    enable = true; #This line enables sddm
+    theme = "${import ./sddm-theme.nix { inherit pkgs; }}";
+  };
 
   # Enabling hyprlnd on NixOS
   programs.hyprland = {
@@ -188,6 +191,8 @@
     phinger-cursors
     zsh
     home-manager
+    libsForQt5.qt5.qtquickcontrols2
+    libsForQt5.qt5.qtgraphicaleffects
   ];
 
   stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
