@@ -83,6 +83,7 @@
     packages = with pkgs; [
     #  thunderbird
     ];
+    shell = pkgs.zsh;
   };
 
   services.displayManager.sddm.enable = true; #This line enables sddm
@@ -92,6 +93,10 @@
      enable = true;
      # nvidiaPatches = true;
      xwayland.enable = true;
+  };
+
+  programs.zsh = {
+    enable = true;
   };
 
   environment.sessionVariables = {
@@ -131,8 +136,11 @@
     git
     swww
     phinger-cursors
+    zsh
     home-manager
   ];
+
+  fonts.packages = with pkgs; [ (nerdfonts.override { fonts = [ "FiraCode" ]; }) ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

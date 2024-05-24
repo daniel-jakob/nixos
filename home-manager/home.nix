@@ -6,7 +6,14 @@
   config,
   pkgs,
   ...
-}: {
+}:
+let 
+  myAliases = {
+    ll = "ls -l";
+    ".." = "cd ..";
+  };
+in
+{
   # You can import other home-manager modules here
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
@@ -45,7 +52,15 @@
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
-  # home.packages = with pkgs; [ steam ];
+  home.packages = with pkgs; [
+    discord
+    neovim
+  ];
+
+  home.sessionVariables = {
+  EDITOR = "nvim";
+  SHELL = "zsh";
+  };
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
@@ -53,6 +68,56 @@
    enable =  true;
    userName = "daniel"; 
    userEmail = "danieljakob1307@gmail.com";
+  };
+
+  programs.bash = {
+    enable = true;
+    shellAliases = myAliases;
+  };
+
+  programs.zsh = {
+    enable = true;
+    shellAliases = myAliases; 
+    enableCompletion = true;
+    autosuggestion.enable = true;
+    dotDir = ".config/zsh";
+    syntaxHighlighting.enable = true;
+    history = {
+      path = "${config.xdg.dataHome}/zsh/history";
+      save = 10000;
+      size = 10000;
+    };
+    # Additional configuration for zinit and powerlevel10k
+    plugins = [
+      {
+        name = "powerlevel10k-config";
+        src = ./p10k;
+        file = "p10k.zsh";
+      }
+      {
+        name = "zsh-powerlevel10k";
+        src = "${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/";
+        file = "powerlevel10k.zsh-theme";
+      }
+    ];
+    initExtra = ''
+      # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+      # Initialization code that may require console input (password prompts, [y/n]
+      # confirmations, etc.) must go above this block; everything else may go below.
+      if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
+        source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
+      fi
+    '';  
+  };
+
+  programs.kitty = {
+    enable = true;
+    theme = "Catppuccin-Mocha";
+    shellIntegration.enableZshIntegration = true;
+    font = {
+      name = "FiraCode Nerd Font";
+      size = 10;
+      };
   };
 
   # Nicely reload system units when changing configs
