@@ -59,6 +59,7 @@ in
     swayidle
     swaylock-effects
     nil # NIX LSP
+    nixpkgs-fmt
   ];
 
   home.sessionVariables = {
