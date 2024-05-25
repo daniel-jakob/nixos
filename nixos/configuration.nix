@@ -53,6 +53,8 @@
     LC_TIME = "en_IE.UTF-8";
   };
 
+  security.pam.services.swaylock = {}; # for swaylock unlocking purposes
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
@@ -161,7 +163,10 @@
 
   #XDG portal
   xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  xdg.portal.extraPortals = [ 
+    pkgs.xdg-desktop-portal-gtk 
+    pkgs.xdg-desktop-portal-hyprland
+  ];
 
   hardware = {
     # Opengl
@@ -188,7 +193,6 @@
     libnotify
     git
     swww
-    phinger-cursors
     zsh
     home-manager
     libsForQt5.qt5.qtquickcontrols2

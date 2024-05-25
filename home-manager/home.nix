@@ -55,6 +55,8 @@ in
   home.packages = with pkgs; [
     discord
     fastfetch
+    swayidle
+    swaylock-effects
   ];
 
   home.sessionVariables = {
@@ -92,7 +94,7 @@ in
       {
         name = "powerlevel10k-config";
         src = ./p10k;
-  file = "p10k.zsh";
+        file = "p10k.zsh";
       }
       {
         name = "zsh-powerlevel10k";
@@ -120,19 +122,28 @@ in
       };
   };
 
+
+
   programs.neovim = {
     enable = true;
   };
 
-  home.file.".config/hypr/hyprland.conf".source = ./hyprland.conf; # symlink hyprland config
+  home.file.".config/hypr/hyprland.conf".source = ./hyprland/hyprland.conf; # symlink hyprland config
 
 
-  home.file.".config/rofi/themes/rounded-nord.rasi".source = ./rounded-nord.rasi; # symlink rofi theme
-  home.file.".config/rofi/themes/rounded-common.rasi".source = ./rounded-common.rasi; # symlink rofi theme
+  home.file.".config/rofi/themes/rounded-nord.rasi".source = ./rofi/rounded-nord.rasi; # symlink rofi theme
+  home.file.".config/rofi/themes/rounded-common.rasi".source = ./rofi/rounded-common.rasi; # symlink rofi theme
+  home.file.".config/rofi/config.rasi".source = ./rofi/config.rasi; # symlink rofi config
+
+  home.file.".config/rofi/leave/leave.sh".source = ./rofi/leave.sh; # symlink rofi menu for leave button
+ 
+  home.file.".config/waybar/config".source = ./waybar/config; # symlink waybar config
+  home.file.".config/waybar/style.css".source = ./waybar/style.css; # symlink waybar config style.css
 
   gtk.enable = true;
   gtk.cursorTheme.package = pkgs.bibata-cursors;
   gtk.cursorTheme.name = "Bibata-Modern-Ice";
+  gtk.cursorTheme.size = 20;
   
 
   # Nicely reload system units when changing configs
