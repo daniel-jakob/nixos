@@ -55,6 +55,7 @@ in
   home.packages = with pkgs; [
     discord
     fastfetch
+    spotify-player
     swayidle
     swaylock-effects
   ];
