@@ -205,7 +205,7 @@
     libsForQt5.qt5.qtgraphicaleffects
   ];
 
-  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/mocha.yaml";
 
 
   stylix.cursor.package = pkgs.bibata-cursors;
