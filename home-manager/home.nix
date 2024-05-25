@@ -58,6 +58,7 @@ in
     spotify-player
     swayidle
     swaylock-effects
+    nil # NIX LSP
   ];
 
   home.sessionVariables = {

@@ -193,6 +193,7 @@
     rofi-wayland
     waybar
     dunst
+    vscode
     libnotify
     git
     swww
