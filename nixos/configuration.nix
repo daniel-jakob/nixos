@@ -196,6 +196,7 @@
     dunst
     vscode
     libnotify
+    base16-schemes
     git
     swww
     zsh
