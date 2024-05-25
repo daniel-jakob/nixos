@@ -8,12 +8,12 @@
 }:
 let
   myAliases = {
-    # Changing "ls" to "exa"
-    ls = "exa - -icons - -color=always --group-directories-first";
-    ll = "exa -alF --icons --color=always --group-directories-first";
-    la = "exa -a --icons --color=always --group-directories-first";
-    l = "exa -F --icons --color=always --group-directories-first";
-    "l." = "exa -a | egrep '^\.' ";
+    # Changing "ls" to "eza"
+    ls = "eza - -icons - -color=always --group-directories-first";
+    ll = "eza -alF --icons --color=always --group-directories-first";
+    la = "eza -a --icons --color=always --group-directories-first";
+    l = "eza -F --icons --color=always --group-directories-first";
+    "l." = "eza -a | egrep '^\.' ";
     ".." = "cd ..";
   };
 in
@@ -33,7 +33,7 @@ in
       # If you want to use overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
 
-      # Or define it inline, for example:
+      # Or define it inline, for ezample:
       # (final: prev: {
       #   hi = final.hello.overrideAttrs (oldAttrs: {
       #     patches = [ ./change-hello-to-hi.patch ];
@@ -64,7 +64,7 @@ in
     swaylock-effects
     nil # NIX LSP
     nixpkgs-fmt
-    exa
+    eza
   ];
 
   home.sessionVariables = {
