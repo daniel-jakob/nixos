@@ -23,7 +23,10 @@
 
   networking.hostName = "nixos"; # Define your hostname.
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings = {
+  experimental-features = [ "nix-command" "flakes" ]; # enable flakes
+  auto-optimise-store = true; # auto optimse nix store with links to single instances of dependencies
+  };
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
