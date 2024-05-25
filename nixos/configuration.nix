@@ -6,7 +6,8 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
@@ -24,8 +25,8 @@
   networking.hostName = "nixos"; # Define your hostname.
 
   nix.settings = {
-  experimental-features = [ "nix-command" "flakes" ]; # enable flakes
-  auto-optimise-store = true; # auto optimse nix store with links to single instances of dependencies
+    experimental-features = [ "nix-command" "flakes" ]; # enable flakes
+    auto-optimise-store = true; # auto optimse nix store with links to single instances of dependencies
   };
 
   # Configure network proxy if necessary
@@ -56,7 +57,7 @@
     LC_TIME = "en_IE.UTF-8";
   };
 
-  security.pam.services.swaylock = {}; # for swaylock unlocking purposes
+  security.pam.services.swaylock = { }; # for swaylock unlocking purposes
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -129,7 +130,7 @@
     description = "Daniel";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-    #  thunderbird
+      #  thunderbird
     ];
     shell = pkgs.zsh;
   };
@@ -141,9 +142,9 @@
 
   # Enabling hyprlnd on NixOS
   programs.hyprland = {
-     enable = true;
-     # nvidiaPatches = true;
-     xwayland.enable = true;
+    enable = true;
+    # nvidiaPatches = true;
+    xwayland.enable = true;
   };
 
   programs.zsh = {
@@ -166,15 +167,15 @@
 
   #XDG portal
   xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ 
-    pkgs.xdg-desktop-portal-gtk 
+  xdg.portal.extraPortals = [
+    pkgs.xdg-desktop-portal-gtk
     pkgs.xdg-desktop-portal-hyprland
   ];
 
   hardware = {
     # Opengl
     opengl.enable = true;
-        
+
     # Most wayland compositors need this
     # nvidia.modesetting.enable = true;
   };
@@ -204,7 +205,7 @@
   ];
 
   stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
-  
+
 
   stylix.cursor.package = pkgs.bibata-cursors;
   stylix.cursor.name = "Bibata-Modern-Ice";

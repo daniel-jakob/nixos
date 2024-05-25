@@ -1,13 +1,12 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
-{
-  inputs,
-  lib,
-  config,
-  pkgs,
-  ...
+{ inputs
+, lib
+, config
+, pkgs
+, ...
 }:
-let 
+let
   myAliases = {
     ll = "ls -l";
     ".." = "cd ..";
@@ -63,16 +62,16 @@ in
   ];
 
   home.sessionVariables = {
-  EDITOR = "nvim";
-  SHELL = "zsh";
+    EDITOR = "nvim";
+    SHELL = "zsh";
   };
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
   programs.git = {
-   enable =  true;
-   userName = "daniel"; 
-   userEmail = "danieljakob1307@gmail.com";
+    enable = true;
+    userName = "daniel";
+    userEmail = "danieljakob1307@gmail.com";
   };
 
   programs.bash = {
@@ -82,7 +81,7 @@ in
 
   programs.zsh = {
     enable = true;
-    shellAliases = myAliases; 
+    shellAliases = myAliases;
     enableCompletion = true;
     autosuggestion.enable = true;
     dotDir = ".config/zsh";
@@ -112,7 +111,7 @@ in
       if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
         source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
       fi
-    '';  
+    '';
   };
 
   programs.kitty = {
@@ -122,7 +121,7 @@ in
     font = {
       name = "FiraCode Nerd Font";
       size = 10;
-      };
+    };
   };
 
 
@@ -139,7 +138,7 @@ in
   home.file.".config/rofi/config.rasi".source = ./rofi/config.rasi; # symlink rofi config
 
   home.file.".config/rofi/leave/leave.sh".source = ./rofi/leave.sh; # symlink rofi menu for leave button
- 
+
   home.file.".config/waybar/config".source = ./waybar/config; # symlink waybar config
   home.file.".config/waybar/style.css".source = ./waybar/style.css; # symlink waybar config style.css
 
@@ -147,7 +146,7 @@ in
   gtk.cursorTheme.package = pkgs.bibata-cursors;
   gtk.cursorTheme.name = "Bibata-Modern-Ice";
   gtk.cursorTheme.size = 20;
-  
+
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
