@@ -8,7 +8,12 @@
 }:
 let
   myAliases = {
-    ll = "ls -l";
+    # Changing "ls" to "exa"
+    ls = "exa - -icons - -color=always --group-directories-first";
+    ll = "exa -alF --icons --color=always --group-directories-first";
+    la = "exa -a --icons --color=always --group-directories-first";
+    l = "exa -F --icons --color=always --group-directories-first";
+    "l." = "exa -a | egrep '^\.' ";
     ".." = "cd ..";
   };
 in
@@ -59,6 +64,7 @@ in
     swaylock-effects
     nil # NIX LSP
     nixpkgs-fmt
+    exa
   ];
 
   home.sessionVariables = {
