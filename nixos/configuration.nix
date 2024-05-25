@@ -210,6 +210,7 @@
 
   stylix.cursor.package = pkgs.bibata-cursors;
   stylix.cursor.name = "Bibata-Modern-Ice";
+  stylix.image = "$HOME/Pictures/wallpapers/forest.jpg";
 
   fonts.packages = with pkgs; [ (nerdfonts.override { fonts = [ "FiraCode" ]; }) ];
 
