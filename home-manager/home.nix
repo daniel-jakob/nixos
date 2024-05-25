@@ -111,6 +111,10 @@ in
       if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
         source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
       fi
+      # Completion files: Use XDG dirs
+      [ -d "$XDG_CACHE_HOME"/zsh ] || mkdir -p "$XDG_CACHE_HOME"/zsh
+      zstyle ':completion:*' cache-path "$XDG_CACHE_HOME"/zsh/zcompcache
+      compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-$ZSH_VERSION
     '';
   };
 

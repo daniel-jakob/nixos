@@ -163,6 +163,7 @@
     XDG_CONFIG_HOME = "$HOME/.config";
     XDG_DATA_HOME = "$HOME/.local/share";
     XDG_STATE_HOME = "$HOME/.local/state";
+    ZDOTDIR = "$HOME/.config/zsh";
   };
 
   #XDG portal
@@ -210,7 +211,8 @@
 
   stylix.cursor.package = pkgs.bibata-cursors;
   stylix.cursor.name = "Bibata-Modern-Ice";
-  stylix.image = "$HOME/Pictures/wallpapers/forest.jpg";
+  stylix.image = "$HOME/Pictures/village.jpg";
+  stylix.polarity = "dark";
 
   fonts.packages = with pkgs; [ (nerdfonts.override { fonts = [ "FiraCode" ]; }) ];
 
