@@ -71,10 +71,11 @@ in
   home.sessionVariables = {
     EDITOR = "nvim";
     SHELL = "zsh";
-    GTK2_RC_FILES = lib.mkForce "$XDG_CONFIG_HOME/gtk-2.0/gtkrc";
+    GTK2_RC_FILES = lib.mkForce "$XDG_CONFIG_HOME/gtk-2.0/gtkrc"; # move gtk2 config to XDG_CONFIG_HOME
     XCURSOR_PATH = lib.mkForce "$XDG_DATA_HOME/icons";
     XCURSOR_SIZE = "20";
-    ZDOTDIR = "$XDG_CONFIG_HOME/zsh";
+    ZDOTDIR = "$XDG_CONFIG_HOME/zsh"; # move zsh config to XDG_CONFIG_HOME
+    XCOMPOSECACHE = "$XDG_CACHE_HOME/X11/xcompose"; # move .compose-cache of X11 to XDG_CACHE_HOME
   };
 
   # Enable home-manager and git
@@ -146,6 +147,7 @@ in
   };
 
   home.file.".config/hypr/hyprland.conf".source = ./hyprland/hyprland.conf; # symlink hyprland config
+  home.file.".config/hypr/start.sh".source = ./hyprland/start.sh; # symlink hyprland zsh theme
 
 
   home.file.".config/rofi/themes/rounded-nord.rasi".source = ./rofi/rounded-nord.rasi; # symlink rofi theme
