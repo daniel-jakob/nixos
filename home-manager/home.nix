@@ -70,6 +70,9 @@ in
   home.sessionVariables = {
     EDITOR = "nvim";
     SHELL = "zsh";
+    GTK2_RC_FILES = lib.mkForce "$XDG_CONFIG_HOME/gtk-2.0/gtkrc";
+    XCURSOR_PATH = lib.mkForce "$XDG_DATA_HOME/icons";
+    ZDOTDIR = "$XDG_CONFIG_HOME/zsh";
   };
 
   # Enable home-manager and git
@@ -153,7 +156,7 @@ in
   home.file.".config/waybar/style.css".source = ./waybar/style.css; # symlink waybar config style.css
 
   gtk.enable = true;
-  gtk.cursorTheme.package = pkgs.bibata-cursors;
+  #gtk.cursorTheme.package = pkgs.bibata-cursors;
   gtk.cursorTheme.name = "Bibata-Modern-Ice";
   gtk.cursorTheme.size = 20;
 

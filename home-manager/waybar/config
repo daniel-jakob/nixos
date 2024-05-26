@@ -100,7 +100,7 @@
 			"default": " "
 		},
 		"escape": true,
-		"exec": "$HOME/.config/system_scripts/mediaplayer.py 2> /dev/null",
+		"exec": "$XDG_CONFIG_HOME/system_scripts/mediaplayer.py 2> /dev/null",
 		"on-click": "playerctl play-pause"
 	},
 	"custom/launcher": {
@@ -110,10 +110,10 @@
 	},
 	"custom/power": {
 		"format": " ",
-		"on-click": "bash ~/.config/rofi/leave/leave.sh"
+		"on-click": "bash $XDG_CONFIG_HOME/rofi/leave/leave.sh"
 	},
 	"custom/wallpaper": {
 		"format": " ",
-		"on-click": "bash ~/.config/system_scripts/pkill_bc"
+		"on-click": "bash $XDG_CONFIG_HOME/system_scripts/pkill_bc"
 	}
 }

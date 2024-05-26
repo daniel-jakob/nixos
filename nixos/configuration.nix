@@ -152,8 +152,8 @@
   };
 
   environment.sessionVariables = {
-    # If your cursor becomes invisible
-    WLR_NO_HARDWARE_CURSORS = "1";
+    # If your cursor becomes invisible (only with nVidia)
+    # WLR_NO_HARDWARE_CURSORS = "1";
     # Hint electron apps to use wayland
     NIXOS_OZONE_WL = "1";
     MOZ_ENABLE_WAYLAND = "1"; # for Firefox to run on wayland
@@ -163,7 +163,6 @@
     XDG_CONFIG_HOME = "$HOME/.config";
     XDG_DATA_HOME = "$HOME/.local/share";
     XDG_STATE_HOME = "$HOME/.local/state";
-    ZDOTDIR = "$HOME/.config/zsh";
   };
 
   #XDG portal
@@ -189,29 +188,30 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    vim
     wget
-    kitty
-    rofi-wayland
-    waybar
-    dunst
+    kitty # terminal
+    rofi-wayland # app launcher
+    waybar # status bar
+    dunst # notification daemon
     vscode
     libnotify
     base16-schemes
     git
-    swww
-    zsh
+    swww # background wallpaper
+    zsh # shell
     home-manager
-    libsForQt5.qt5.qtquickcontrols2
-    libsForQt5.qt5.qtgraphicaleffects
+    libsForQt5.qt5.qtquickcontrols2 # for sddm theme
+    libsForQt5.qt5.qtgraphicaleffects # for sddm theme
   ];
 
-  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/mocha.yaml";
 
+  stylix.image = "$HOME/Pictures/village.jpg";
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/mocha.yaml";
 
   stylix.cursor.package = pkgs.bibata-cursors;
   stylix.cursor.name = "Bibata-Modern-Ice";
-  stylix.image = "$HOME/Pictures/village.jpg";
+
   stylix.polarity = "dark";
 
   fonts.packages = with pkgs; [ (nerdfonts.override { fonts = [ "FiraCode" ]; }) ];
