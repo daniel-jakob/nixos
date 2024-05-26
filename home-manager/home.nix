@@ -64,6 +64,7 @@ in
     swaylock-effects
     nil # NIX LSP
     nixpkgs-fmt
+    bibata-cursors
     eza
   ];
 
@@ -72,6 +73,7 @@ in
     SHELL = "zsh";
     GTK2_RC_FILES = lib.mkForce "$XDG_CONFIG_HOME/gtk-2.0/gtkrc";
     XCURSOR_PATH = lib.mkForce "$XDG_DATA_HOME/icons";
+    XCURSOR_SIZE = "20";
     ZDOTDIR = "$XDG_CONFIG_HOME/zsh";
   };
 
@@ -155,10 +157,12 @@ in
   home.file.".config/waybar/config".source = ./waybar/config; # symlink waybar config
   home.file.".config/waybar/style.css".source = ./waybar/style.css; # symlink waybar config style.css
 
-  gtk.enable = true;
-  #gtk.cursorTheme.package = pkgs.bibata-cursors;
-  gtk.cursorTheme.name = "Bibata-Modern-Ice";
-  gtk.cursorTheme.size = 20;
+  home.pointerCursor = {
+    name = "Bibata-Modern-Ice";
+    package = pkgs.bibata-cursors;
+    size = 20;
+    gtk.enable = true;
+  };
 
 
   # Nicely reload system units when changing configs
