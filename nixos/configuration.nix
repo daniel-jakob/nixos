@@ -12,29 +12,31 @@
     ];
 
   # Bootloader.
-  boot.loader = {
-    efi.canTouchEfiVariables = true;
-    grub = {
-      enable = true;
-      devices = [ "nodev" ];
-      efiSupport = true;
-      useOSProber = true;
+  boot = {
+    loader = {
+      efi.canTouchEfiVariables = true;
+      grub = {
+        enable = true;
+        devices = [ "nodev" ];
+        efiSupport = true;
+        useOSProber = true;
+      };
     };
+    kernelPackages = pkgs.linuxPackages_latest; # Use the latest kernel.
   };
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking = {
+    hostName = "nixos"; # Define your hostname.
+    networkmanager.enable = true; # Enable networking#
+    # Configure network proxy if necessary
+    # proxy.default = "http://user:password@proxy:port/";
+    # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  };
 
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ]; # enable flakes
     auto-optimise-store = true; # auto optimse nix store with links to single instances of dependencies
   };
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
 
   # Set your time zone.
   time = {
@@ -43,36 +45,42 @@
   };
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_GB.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_IE.UTF-8";
-    LC_IDENTIFICATION = "en_IE.UTF-8";
-    LC_MEASUREMENT = "en_IE.UTF-8";
-    LC_MONETARY = "en_IE.UTF-8";
-    LC_NAME = "en_IE.UTF-8";
-    LC_NUMERIC = "en_IE.UTF-8";
-    LC_PAPER = "en_IE.UTF-8";
-    LC_TELEPHONE = "en_IE.UTF-8";
-    LC_TIME = "en_IE.UTF-8";
+  i18n = {
+    defaultLocale = "en_GB.UTF-8";
+    extraLocaleSettings = {
+      LC_ADDRESS = "en_IE.UTF-8";
+      LC_IDENTIFICATION = "en_IE.UTF-8";
+      LC_MEASUREMENT = "en_IE.UTF-8";
+      LC_MONETARY = "en_IE.UTF-8";
+      LC_NAME = "en_IE.UTF-8";
+      LC_NUMERIC = "en_IE.UTF-8";
+      LC_PAPER = "en_IE.UTF-8";
+      LC_TELEPHONE = "en_IE.UTF-8";
+      LC_TIME = "en_IE.UTF-8";
+    };
   };
 
   security.pam.services.swaylock = { }; # for swaylock unlocking purposes
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Configure keymap in X11
-  services.xserver = {
-    xkb.layout = "gb";
-    xkb.variant = "";
+  services = {
+    xserver = {
+      enable = true;
+      # Configure keymap in X11
+      xkb.layout = "gb";
+      xkb.variant = "";
+      # Remove XTerm 
+      excludePackages = [ pkgs.xterm ];
+    };
+    printing.enable = true; # Enable CUPS to print documents.
+    displayManager.sddm = {
+      enable = true; #This line enables sddm
+      theme = "${import ./sddm-theme.nix { inherit pkgs; }}";
+    };
   };
 
   # Configure console keymap
   console.keyMap = "uk";
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -83,10 +91,10 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    wireplumber.enable = true;
+    wireplumber.enable = true; # Write wireplumber configuration for no auto suspend
     wireplumber.configPackages = [
       (pkgs.writeTextDir "share/wireplumber/wireplumber.conf.d/alsa.conf" ''
-        monitor.alsa.rules = [
+        monitor.alsa.rules = [ 
           {
             matches = [
               {
@@ -135,47 +143,27 @@
     shell = pkgs.zsh;
   };
 
-  services.displayManager.sddm = {
-    enable = true; #This line enables sddm
-    theme = "${import ./sddm-theme.nix { inherit pkgs; }}";
-  };
-
   # Enabling hyprlnd on NixOS
-  programs.hyprland = {
-    enable = true;
-    # nvidiaPatches = true;
-    xwayland.enable = true;
-  };
-
-  programs.zsh = {
-    enable = true;
-  };
-
-  environment.sessionVariables = {
-    # If your cursor becomes invisible (only with nVidia)
-    # WLR_NO_HARDWARE_CURSORS = "1";
-    # Hint electron apps to use wayland
-    NIXOS_OZONE_WL = "1";
-    MOZ_ENABLE_WAYLAND = "1"; # for Firefox to run on wayland
-    MOZ_WEBRENDERER = "1"; # same
-    # XDG Base Directory Defaults
-    XDG_CACHE_HOME = "$HOME/.cache";
-    XDG_CONFIG_HOME = "$HOME/.config";
-    XDG_DATA_HOME = "$HOME/.local/share";
-    XDG_STATE_HOME = "$HOME/.local/state";
-    ZDOTDIR = "$XDG_CONFIG_HOME/zsh";
+  programs = {
+    hyprland = {
+      enable = true;
+      # nvidiaPatches = true;
+      xwayland.enable = true;
+    };
+    zsh.enable = true;
   };
 
   #XDG portal
-  xdg.portal.enable = true;
-  xdg.portal.extraPortals = [
-    pkgs.xdg-desktop-portal-gtk
-    pkgs.xdg-desktop-portal-hyprland
-  ];
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gtk
+      xdg-desktop-portal-hyprland
+    ];
+  };
 
   hardware = {
-    # Opengl
-    opengl.enable = true;
+    opengl.enable = true; # OpenGL
 
     # Most wayland compositors need this
     # nvidia.modesetting.enable = true;
@@ -186,24 +174,39 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    vim
-    wget
-    kitty # terminal
-    rofi-wayland # app launcher
-    waybar # status bar
-    dunst # notification daemon
-    vscode
-    libnotify
-    base16-schemes
-    git
-    firefox
-    swww # background wallpaper
-    zsh # shell
-    home-manager
-    libsForQt5.qt5.qtquickcontrols2 # for sddm theme
-    libsForQt5.qt5.qtgraphicaleffects # for sddm theme
-  ];
+  environment = {
+    systemPackages = with pkgs; [
+      vim
+      wget
+      kitty # terminal
+      rofi-wayland # app launcher
+      waybar # status bar
+      dunst # notification daemon
+      vscode
+      libnotify
+      base16-schemes
+      git
+      firefox
+      swww # background wallpaper
+      zsh # shell
+      home-manager
+      libsForQt5.qt5.qtquickcontrols2 # for sddm theme
+      libsForQt5.qt5.qtgraphicaleffects # for sddm theme
+    ];
+    sessionVariables = {
+      # If your cursor becomes invisible (only with nVidia)
+      # WLR_NO_HARDWARE_CURSORS = "1";
+      NIXOS_OZONE_WL = "1"; # Hint electron apps to use wayland
+      MOZ_ENABLE_WAYLAND = "1"; # for Firefox to run on wayland
+      MOZ_WEBRENDERER = "1"; # same as above
+      # XDG Base Directory Defaults
+      XDG_CACHE_HOME = "$HOME/.cache";
+      XDG_CONFIG_HOME = "$HOME/.config";
+      XDG_DATA_HOME = "$HOME/.local/share";
+      XDG_STATE_HOME = "$HOME/.local/state";
+      ZDOTDIR = "$XDG_CONFIG_HOME/zsh";
+    };
+  };
 
 
   stylix.image = "$HOME/Pictures/village.jpg";
