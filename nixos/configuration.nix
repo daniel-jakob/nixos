@@ -176,7 +176,6 @@
   # $ nix search wget
   environment = {
     systemPackages = with pkgs; [
-      vim
       wget
       kitty # terminal
       rofi-wayland # app launcher
