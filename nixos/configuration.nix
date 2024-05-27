@@ -180,8 +180,6 @@
     # Most wayland compositors need this
     # nvidia.modesetting.enable = true;
   };
-  # Install firefox.
-  programs.firefox.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -199,6 +197,7 @@
     libnotify
     base16-schemes
     git
+    firefox
     swww # background wallpaper
     zsh # shell
     home-manager
