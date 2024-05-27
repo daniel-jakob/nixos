@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-choice=$(printf "Lock\nLogout\nSuspend\nReboot\nShutdown" | rofi -dmenu)
+choice=$(printf "Lock\nLogout\nSuspend\nReboot\nShutdown" | rofi -dmenu -i) # case insensitive
 if [[ $choice == "Lock" ]];then
     swaylock --image "$HOME/Pictures/village.jpg" \
 	    --clock \
