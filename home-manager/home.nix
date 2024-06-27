@@ -65,6 +65,8 @@ in
       bibata-cursors
       playerctl
       eza
+      nvd
+      nix-output-monitor
     ];
 
     sessionVariables = {
