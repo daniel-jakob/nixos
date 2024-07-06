@@ -23,6 +23,17 @@
       };
     };
     kernelPackages = pkgs.linuxPackages_latest; # Use the latest kernel.
+    supportedFilesystems = [ "ntfs" ];
+  };
+  fileSystems."/mnt/FireCuda" = {
+    device = "/dev/disk/by-uuid/CAFA34CCFA34B713";
+    fsType = "ntfs";
+    options = [ "rw" ];
+  };
+  fileSystems."/mnt/BarraCuda" = {
+    device = "/dev/disk/by-uuid/B0EC3EB1EC3E71A8";
+    fsType = "ntfs";
+    options = [ "rw" ];
   };
 
   networking = {
@@ -188,7 +199,7 @@
       kitty # terminal
       rofi-wayland # app launcher
       waybar # status bar
-      dunst # notification daemon
+      swaynotificationcenter # notification daemon
       vscode
       libnotify
       base16-schemes
@@ -196,6 +207,7 @@
       firefox
       swww # background wallpaper
       zsh # shell
+      wl-clipboard
       home-manager
       libsForQt5.qt5.qtquickcontrols2 # for sddm theme
       libsForQt5.qt5.qtgraphicaleffects # for sddm theme
@@ -211,18 +223,21 @@
       XDG_CONFIG_HOME = "$HOME/.config";
       XDG_DATA_HOME = "$HOME/.local/share";
       XDG_STATE_HOME = "$HOME/.local/state";
-      ZDOTDIR = "$XDG_CONFIG_HOME/zsh";
+      ZDOTDIR = "$XDG_CONFIG_HOME/zsh"; # move zsh config to XDG_CONFIG_HOME
     };
   };
 
+  # stylix = {
+  #   enable = true;
+  #   image = "$HOME/Pictures/village.jpg";
+  #   base16Scheme = "${pkgs.base16-schemes}/share/themes/mocha.yaml";
 
-  stylix.image = "$HOME/Pictures/village.jpg";
-  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/mocha.yaml";
+  #   cursor.package = pkgs.bibata-cursors;
+  #   cursor.name = "Bibata-Modern-Ice";
 
-  stylix.cursor.package = pkgs.bibata-cursors;
-  stylix.cursor.name = "Bibata-Modern-Ice";
+  #   polarity = "dark";
+  # };
 
-  stylix.polarity = "dark";
 
   fonts.packages = with pkgs; [ (nerdfonts.override { fonts = [ "FiraCode" ]; }) ];
 

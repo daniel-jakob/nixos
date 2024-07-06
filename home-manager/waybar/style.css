@@ -135,7 +135,6 @@ window#waybar.hidden {
 	font-size: 20px;
 	margin-top: 6px;
 	margin-left: 8px;
-	margin-right: 8px;
 	padding-left: 10px;
 	padding-right: 5px;
 	margin-bottom: 0px;
@@ -167,6 +166,30 @@ window#waybar.hidden {
 	border-radius: 10px;
 	color: #161320;
 	background: #f2cdcd;
+}
+#custom-notification {
+	margin-top: 6px;
+	margin-left: 8px;
+	padding-left: 10px;
+	padding-right: 4px;
+	margin-right: 8px;
+	margin-bottom: 0px;
+	transition: none;
+	border-radius: 10px;
+	font-size: 18px;
+	color: #161320;
+	background: #f2cdcd;
+}
+#custom-playerlabel {
+	margin-top: 6px;
+	margin-left: 8px;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-bottom: 0px;
+	border-radius: 10px;
+	transition: none;
+	color: #161320;
+	background: @love;
 }
 #workspaces {
 	margin-top: 6px;

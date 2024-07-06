@@ -3,6 +3,7 @@
 { inputs
 , lib
 , config
+, stylix
 , pkgs
 , ...
 }:
@@ -25,6 +26,8 @@ in
 
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
+    ./swaync.nix
+    ./rofi/rofi.nix
   ];
 
   nixpkgs = {
@@ -49,13 +52,42 @@ in
     };
   };
 
+  stylix = {
+    enable = true;
+    image = ./village.jpg;
+    base16Scheme = {
+      base00 = "24273a"; # base
+      base01 = "1e2030"; # mantle
+      base02 = "363a4f"; # surface0
+      base03 = "494d64"; # surface1
+      base04 = "5b6078"; # surface2
+      base05 = "cad3f5"; # text
+      base06 = "f4dbd6"; # rosewater
+      base07 = "b7bdf8"; # lavender
+      base08 = "ed8796"; # red
+      base09 = "f5a97f"; # peach
+      base0A = "eed49f"; # yellow
+      base0B = "a6da95"; # green
+      base0C = "8bd5ca"; # teal
+      base0D = "8aadf4"; # blue
+      base0E = "c6a0f6"; # mauve
+      base0F = "f0c6c6"; # flamingo
+    };
+
+    polarity = "dark";
+  };
+
   home = {
     username = "daniel";
     homeDirectory = "/home/daniel";
 
     # Add stuff for your user as you see fit:
     packages = with pkgs; [
-      discord
+      (discord.override {
+        # remove any overrides that you don't want
+        withOpenASAR = true;
+        # withVencord = true;
+      })
       fastfetch
       spotify-player
       swayidle
@@ -67,6 +99,10 @@ in
       eza
       nvd
       nix-output-monitor
+      grim
+      slurp
+      jq
+      swappy
     ];
 
     sessionVariables = {
@@ -75,19 +111,27 @@ in
       GTK2_RC_FILES = lib.mkForce "$XDG_CONFIG_HOME/gtk-2.0/gtkrc"; # move gtk2 config to XDG_CONFIG_HOME
       XCURSOR_PATH = lib.mkForce "$XDG_DATA_HOME/icons";
       XCURSOR_SIZE = "20";
-      ZDOTDIR = "$XDG_CONFIG_HOME/zsh"; # move zsh config to XDG_CONFIG_HOME
       XCOMPOSECACHE = "$XDG_CACHE_HOME/X11/xcompose"; # move .compose-cache of X11 to XDG_CACHE_HOME
     };
 
     pointerCursor = {
-      name = "Bibata-Modern-Ice";
-      package = pkgs.bibata-cursors;
-      size = 20;
+      name = lib.mkForce "Bibata-Modern-Ice";
+      package = lib.mkForce pkgs.bibata-cursors;
+      size = lib.mkForce 20;
       gtk.enable = true;
     };
 
     # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
     stateVersion = "24.05";
+  };
+
+
+  # Create XDG Dirs
+  xdg = {
+    userDirs = {
+      enable = true;
+      createDirectories = true;
+    };
   };
 
   programs = {
@@ -113,7 +157,7 @@ in
       dotDir = ".config/zsh";
       syntaxHighlighting.enable = true;
       history = {
-        path = "${config.xdg.dataHome}/zsh/history";
+        path = "$XDG_CACHE_HOME/zsh/history";
         save = 10000;
         size = 10000;
       };
@@ -149,8 +193,8 @@ in
       theme = "Catppuccin-Mocha";
       shellIntegration.enableZshIntegration = true;
       font = {
-        name = "FiraCode Nerd Font";
-        size = 10;
+        name = lib.mkForce "FiraCode Nerd Font";
+        size = lib.mkForce 10;
       };
     };
 
@@ -195,6 +239,11 @@ in
               install_url = "https://addons.mozilla.org/firefox/downloads/latest/reddit-enhancement-suite/latest.xpi";
               installation_mode = "force_installed";
             };
+            # SponsorBlock for YouTube
+            "sponsorBlocker@ajay.app" = {
+              install_url = "https://addons.mozilla.org/firefox/downloads/latest/sponsorblock/latest.xpi";
+              installation_mode = "force_installed";
+            };
           };
         };
       };
@@ -203,44 +252,12 @@ in
     neovim = {
       enable = true;
     };
-  };
 
-  services = {
-    dunst = {
-      enable = true;
-      settings = {
-        global = {
-          width = 300;
-          height = 300;
-          offset = "30x50";
-          origin = "top-right";
-          transparency = 10;
-          frame_color = "#eceff1";
-          font = "FiraCode Nerd Font 9";
-        };
-
-        urgency_low = {
-          background = "#37474f";
-          foreground = "#eceff1";
-          timeout = 10;
-        };
-
-        urgency_normal = {
-          background = "#37474f";
-          foreground = "#eceff1";
-          timeout = 10;
-        };
-        urgency_critical = {
-          background = "#37474f";
-          foreground = "#D08770";
-          timeout = 0;
-        };
-      };
-    };
   };
 
   home.file.".config/hypr/hyprland.conf".source = ./hyprland/hyprland.conf; # symlink hyprland config
-  home.file.".config/hypr/start.sh".source = ./hyprland/start.sh; # symlink hyprland zsh theme
+  home.file.".config/hypr/start.sh".source = ./hyprland/start.sh; # symlink hyprland start script
+  home.file.".config/hypr/screenshot.sh".source = ./hyprland/screenshot.sh; # symlink screenshot script
 
 
   home.file.".config/rofi/themes/rounded-nord.rasi".source = ./rofi/rounded-nord.rasi; # symlink rofi theme
@@ -251,6 +268,21 @@ in
 
   home.file.".config/waybar/config".source = ./waybar/config; # symlink waybar config
   home.file.".config/waybar/style.css".source = ./waybar/style.css; # symlink waybar config style.css
+
+  home.file.".config/fastfetch/config.jsonc".source = ./fastfetch/config.jsonc; # symlink fastfetch config.jsonc
+
+  home.file.".config/swappy/config".text = ''
+    [Default]
+    save_dir=$HOME/Pictures/Screenshots
+    save_filename_format=swappy-%Y%m%d-%H%M%S.png
+    show_panel=false
+    line_size=5
+    text_size=20
+    text_font=Ubuntu
+    paint_mode=brush
+    early_exit=true
+    fill_shape=false
+  '';
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";

@@ -1,2 +1,2 @@
 
-@theme ".config/rofi/themes/rounded-nord.rasi"
+@theme "~/.config/rofi/themes/rounded-nord.rasi"

@@ -5,4 +5,4 @@ swww img ~/Pictures/sky.jpg
 
 waybar &
 
-dunst
+swaync

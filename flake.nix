@@ -31,7 +31,7 @@
           # > Our main nixos configuration file <
           modules = [
             ./nixos/configuration.nix
-            inputs.stylix.nixosModules.stylix
+            #stylix.nixosModules.stylix
           ];
         };
       };
@@ -43,7 +43,10 @@
           pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = { inherit inputs outputs; };
           # > Our main home-manager configuration file <
-          modules = [ ./home-manager/home.nix ];
+          modules = [
+            ./home-manager/home.nix
+            stylix.homeManagerModules.stylix
+          ];
         };
       };
     };
