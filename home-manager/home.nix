@@ -28,6 +28,7 @@ in
     # ./nvim.nix
     ./swaync.nix
     ./rofi/rofi.nix
+    ./tmux
     ./starship
   ];
 
