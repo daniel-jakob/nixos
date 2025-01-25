@@ -128,6 +128,7 @@ in
 
   # Create XDG Dirs
   xdg = {
+    enable = true;
     userDirs = {
       enable = true;
       createDirectories = true;

@@ -220,11 +220,6 @@
       NIXOS_OZONE_WL = "1"; # Hint electron apps to use wayland
       MOZ_ENABLE_WAYLAND = "1"; # for Firefox to run on wayland
       MOZ_WEBRENDERER = "1"; # same as above
-      # XDG Base Directory Defaults
-      XDG_CACHE_HOME = "$HOME/.cache";
-      XDG_CONFIG_HOME = "$HOME/.config";
-      XDG_DATA_HOME = "$HOME/.local/share";
-      XDG_STATE_HOME = "$HOME/.local/state";
       ZDOTDIR = "$XDG_CONFIG_HOME/zsh"; # move zsh config to XDG_CONFIG_HOME
     };
   };
