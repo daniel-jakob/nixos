@@ -94,7 +94,7 @@
   console.keyMap = "uk";
 
   # Enable sound with pipewire.
-  sound.enable = true;
+  # sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -211,6 +211,8 @@
       home-manager
       libsForQt5.qt5.qtquickcontrols2 # for sddm theme
       libsForQt5.qt5.qtgraphicaleffects # for sddm theme
+      lazygit
+      tmux
     ];
     sessionVariables = {
       # If your cursor becomes invisible (only with nVidia)
@@ -239,8 +241,11 @@
   # };
 
 
-  fonts.packages = with pkgs; [ (nerdfonts.override { fonts = [ "FiraCode" ]; }) ];
+  # fonts.packages = with pkgs; [ (nerdfonts.override { fonts = [ "FiraCode" ]; }) ];
 
+  fonts.packages = [
+    pkgs.nerd-fonts.fira-code
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

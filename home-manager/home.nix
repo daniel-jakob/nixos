@@ -190,7 +190,7 @@ in
 
     kitty = {
       enable = true;
-      theme = "Catppuccin-Mocha";
+      themeFile = "Catppuccin-Mocha";
       shellIntegration.enableZshIntegration = true;
       font = {
         name = lib.mkForce "FiraCode Nerd Font";
