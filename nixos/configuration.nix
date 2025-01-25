@@ -147,7 +147,7 @@
   users.users.daniel = {
     isNormalUser = true;
     description = "Daniel";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker"];
     packages = with pkgs; [
       #  thunderbird
     ];
@@ -213,6 +213,8 @@
       libsForQt5.qt5.qtgraphicaleffects # for sddm theme
       lazygit
       tmux
+      docker
+      lazydocker
     ];
     sessionVariables = {
       # If your cursor becomes invisible (only with nVidia)
@@ -249,6 +251,7 @@
   #   enable = true;
   #   enableSSHSupport = true;
   # };
+  virtualisation.docker.enable = true;
 
   # List services that you want to enable:
 
