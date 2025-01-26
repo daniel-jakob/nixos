@@ -30,6 +30,7 @@ in
     ./rofi/rofi.nix
     ./tmux
     ./starship
+    ./hyprland
   ];
 
   nixpkgs = {
@@ -241,7 +242,6 @@ in
 
   };
 
-  home.file.".config/hypr/hyprland.conf".source = ./hyprland/hyprland.conf; # symlink hyprland config
   home.file.".config/hypr/start.sh".source = ./hyprland/start.sh; # symlink hyprland start script
   home.file.".config/hypr/screenshot.sh".source = ./hyprland/screenshot.sh; # symlink screenshot script
 
