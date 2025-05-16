@@ -30,8 +30,14 @@
           specialArgs = { inherit inputs outputs; };
           # > Our main nixos configuration file <
           modules = [
-            ./nixos/configuration.nix
+            ./hosts/guppy
             #stylix.nixosModules.stylix
+          ];
+        };
+        gusto = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [
+            ./hosts/gusto
           ];
         };
       };
@@ -44,7 +50,7 @@
           extraSpecialArgs = { inherit inputs outputs; };
           # > Our main home-manager configuration file <
           modules = [
-            ./home-manager/home.nix
+            ./home/home.nix
             stylix.homeManagerModules.stylix
           ];
         };
