@@ -18,10 +18,10 @@
   };
 
   programs.nh = {
-      enable = true;
-      clean.enable = true;
-      clean.extraArgs = "--keep-since 4d --keep 3";
-      flake = "/home/daniel/mysystem";
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep-since 4d --keep 3";
+    flake = "/home/daniel/mysystem";
   };
 
   # Enable firmware with a license allowing redistribution
