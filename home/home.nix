@@ -1,5 +1,4 @@
 # This is your home-manager configuration file
-# Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 { inputs
 , lib
 , config
@@ -81,8 +80,6 @@ in
   };
 
   home = {
-    username = "daniel";
-    homeDirectory = "/home/daniel";
 
     # Add stuff for your user as you see fit:
     packages = with pkgs; [
@@ -241,8 +238,16 @@ in
     };
 
   };
+<<<<<<< HEAD
 
   home.file.".config/hypr/start.sh".source = ./hyprland/start.sh; # symlink hyprland start script
+||||||| parent of 62d49a6 (home and host plumbing for guppy and gusto)
+
+  home.file.".config/hypr/hyprland.conf".source = ./hyprland/hyprland.conf; # symlink hyprland config
+  home.file.".config/hypr/start.sh".source = ./hyprland/start.sh; # symlink hyprland start script
+=======
+  
+>>>>>>> 62d49a6 (home and host plumbing for guppy and gusto)
   home.file.".config/hypr/screenshot.sh".source = ./hyprland/screenshot.sh; # symlink screenshot script
 
 

@@ -2,7 +2,12 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
+<<<<<<< HEAD
 { config, pkgs, ... }:
+||||||| parent of 62d49a6 (home and host plumbing for guppy and gusto)
+{ config, pkgs, ... }:
+=======
+>>>>>>> 62d49a6 (home and host plumbing for guppy and gusto)
 { config, pkgs, lib, ... }:
 
 {
@@ -11,6 +16,7 @@
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ../common/core
+      ../common/optional/audio.nix
     ];
 
   # Bootloader.
@@ -79,6 +85,7 @@
   # Configure console keymap
   console.keyMap = "uk";
 
+<<<<<<< HEAD
   # Enable sound with pipewire.
   # sound.enable = true;
   hardware.pulseaudio.enable = false;
@@ -140,6 +147,70 @@
     shell = pkgs.zsh;
   };
 
+||||||| parent of 62d49a6 (home and host plumbing for guppy and gusto)
+  # Enable sound with pipewire.
+  sound.enable = true;
+  hardware.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    wireplumber.enable = true; # Write wireplumber configuration for no auto suspend
+    wireplumber.configPackages = [
+      (pkgs.writeTextDir "share/wireplumber/wireplumber.conf.d/alsa.conf" ''
+        monitor.alsa.rules = [ 
+          {
+            matches = [
+              {
+                device.name = "~alsa_card.*"
+              }
+            ]
+            actions = {
+              update-props = {
+                # Device settings
+                api.alsa.use-acp = true
+              }
+            }
+          }
+          {
+            matches = [
+              {
+                node.name = "~alsa_input.*"
+              }
+              {
+                node.name = "~alsa_output.*"
+              }
+            ]
+            actions = {
+            # Node settings
+              update-props = {
+                session.suspend-timeout-seconds = 0
+              }
+            }
+          }
+        ]
+      '')
+    ];
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+
+  };
+
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.daniel = {
+    isNormalUser = true;
+    description = "Daniel";
+    extraGroups = [ "networkmanager" "wheel" ];
+    packages = with pkgs; [
+      #  thunderbird
+    ];
+    shell = pkgs.zsh;
+  };
+
+=======
+>>>>>>> 62d49a6 (home and host plumbing for guppy and gusto)
   # Enabling hyprlnd on NixOS
   programs = {
     hyprland = {

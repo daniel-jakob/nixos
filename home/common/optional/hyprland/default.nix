@@ -203,4 +203,9 @@ in
       exec-once = ''${startUpScript}/bin/start'';
     };
   };
+<<<<<<< HEAD:home/common/core/hyprland/default.nix
 }
+||||||| parent of 62d49a6 (home and host plumbing for guppy and gusto):home/common/core/hyprland/default.nix
+=======
+}
+>>>>>>> 62d49a6 (home and host plumbing for guppy and gusto):home/common/optional/hyprland/default.nix
