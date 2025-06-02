@@ -31,6 +31,7 @@
           # > Our main nixos configuration file <
           modules = [
             ./hosts/guppy
+            ./hosts/users/daniel.nix
             #stylix.nixosModules.stylix
           ];
         };
@@ -38,6 +39,7 @@
           specialArgs = { inherit inputs outputs; };
           modules = [
             ./hosts/gusto
+            ./hosts/users/daniel.nix
           ];
         };
       };

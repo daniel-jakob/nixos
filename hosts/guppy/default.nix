@@ -2,12 +2,6 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-<<<<<<< HEAD
-{ config, pkgs, ... }:
-||||||| parent of 62d49a6 (home and host plumbing for guppy and gusto)
-{ config, pkgs, ... }:
-=======
->>>>>>> 62d49a6 (home and host plumbing for guppy and gusto)
 { config, pkgs, lib, ... }:
 
 {
@@ -16,7 +10,12 @@
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ../common/core
+      ../common/users/daniel.nix
       ../common/optional/audio.nix
+      ../common/optional/hyprland.nix
+      ../common/optional/x11.nix
+      ../common/optional/printing.nix
+      ../common/optional/sddm.nix
     ];
 
   # Bootloader.
@@ -45,16 +44,11 @@
   };
 
   networking = {
-    hostName = "nixos"; # Define your hostname.
+    hostName = "guppy"; # Define your hostname.
     networkmanager.enable = true; # Enable networking#
     # Configure network proxy if necessary
     # proxy.default = "http://user:password@proxy:port/";
     # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-  };
-
-  nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ]; # enable flakes
-    auto-optimise-store = true; # auto optimse nix store with links to single instances of dependencies
   };
 
   # Set your time zone.
@@ -65,159 +59,10 @@
 
   security.pam.services.swaylock = { }; # for swaylock unlocking purposes
 
-  # Enable the X11 windowing system.
-  services = {
-    xserver = {
-      enable = true;
-      # Configure keymap in X11
-      xkb.layout = "gb";
-      xkb.variant = "";
-      # Remove XTerm 
-      excludePackages = [ pkgs.xterm ];
-    };
-    printing.enable = true; # Enable CUPS to print documents.
-    displayManager.sddm = {
-      enable = true; #This line enables sddm
-      theme = "${import ./sddm-theme.nix { inherit pkgs; }}";
-    };
-  };
-
   # Configure console keymap
   console.keyMap = "uk";
 
-<<<<<<< HEAD
-  # Enable sound with pipewire.
-  # sound.enable = true;
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    wireplumber.enable = true; # Write wireplumber configuration for no auto suspend
-    wireplumber.configPackages = [
-      (pkgs.writeTextDir "share/wireplumber/wireplumber.conf.d/alsa.conf" ''
-        monitor.alsa.rules = [ 
-          {
-            matches = [
-              {
-                device.name = "~alsa_card.*"
-              }
-            ]
-            actions = {
-              update-props = {
-                # Device settings
-                api.alsa.use-acp = true
-              }
-            }
-          }
-          {
-            matches = [
-              {
-                node.name = "~alsa_input.*"
-              }
-              {
-                node.name = "~alsa_output.*"
-              }
-            ]
-            actions = {
-            # Node settings
-              update-props = {
-                session.suspend-timeout-seconds = 0
-              }
-            }
-          }
-        ]
-      '')
-    ];
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-  };
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.daniel = {
-    isNormalUser = true;
-    description = "Daniel";
-    extraGroups = [ "networkmanager" "wheel" "docker"];
-    packages = with pkgs; [
-      #  thunderbird
-    ];
-    shell = pkgs.zsh;
-  };
-
-||||||| parent of 62d49a6 (home and host plumbing for guppy and gusto)
-  # Enable sound with pipewire.
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    wireplumber.enable = true; # Write wireplumber configuration for no auto suspend
-    wireplumber.configPackages = [
-      (pkgs.writeTextDir "share/wireplumber/wireplumber.conf.d/alsa.conf" ''
-        monitor.alsa.rules = [ 
-          {
-            matches = [
-              {
-                device.name = "~alsa_card.*"
-              }
-            ]
-            actions = {
-              update-props = {
-                # Device settings
-                api.alsa.use-acp = true
-              }
-            }
-          }
-          {
-            matches = [
-              {
-                node.name = "~alsa_input.*"
-              }
-              {
-                node.name = "~alsa_output.*"
-              }
-            ]
-            actions = {
-            # Node settings
-              update-props = {
-                session.suspend-timeout-seconds = 0
-              }
-            }
-          }
-        ]
-      '')
-    ];
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-  };
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.daniel = {
-    isNormalUser = true;
-    description = "Daniel";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      #  thunderbird
-    ];
-    shell = pkgs.zsh;
-  };
-
-=======
->>>>>>> 62d49a6 (home and host plumbing for guppy and gusto)
-  # Enabling hyprlnd on NixOS
   programs = {
-    hyprland = {
-      enable = true;
-      # nvidiaPatches = true;
-      xwayland.enable = true;
-    };
     zsh.enable = true;
 
   };
@@ -246,10 +91,7 @@
   environment = {
     systemPackages = with pkgs; [
       wget
-      kitty # terminal
       rofi-wayland # app launcher
-      waybar # status bar
-      swaynotificationcenter # notification daemon
       vscode
       libnotify
       base16-schemes

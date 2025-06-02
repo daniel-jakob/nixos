@@ -1,6 +1,10 @@
 { lib, config, pkgs, stylix, ... }:
 
 {
+  services.swaync = {
+    enable = true; # enable swaync
+  };
+  
   home.file.".config/swaync/config.json".text = /*json*/''
     {
       "$schema": "/etc/xdg/swaync/configSchema.json",
@@ -353,5 +357,3 @@
     }
   '';
 }
-
-

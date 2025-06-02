@@ -18,20 +18,6 @@ let
   };
 in
 {
-  # You can import other home-manager modules here
-  imports = [
-    # If you want to use home-manager modules from other flakes (such as nix-colors):
-    # inputs.nix-colors.homeManagerModule
-
-    # You can also split up your configuration and import pieces of it here:
-    # ./nvim.nix
-    ./swaync.nix
-    ./rofi/rofi.nix
-    ./tmux
-    ./starship
-    ./hyprland
-  ];
-
   nixpkgs = {
     # You can add overlays here
     overlays = [
@@ -88,7 +74,6 @@ in
         withOpenASAR = true;
         # withVencord = true;
       })
-      fastfetch
       spotify-player
       swayidle
       swaylock-effects
@@ -172,16 +157,6 @@ in
       '';
     };
 
-    kitty = {
-      enable = true;
-      themeFile = "Catppuccin-Mocha";
-      shellIntegration.enableZshIntegration = true;
-      font = {
-        name = lib.mkForce "FiraCode Nerd Font";
-        size = lib.mkForce 10;
-      };
-    };
-
     firefox = {
       enable = true;
       /* ---- EXTENSIONS ---- */
@@ -238,29 +213,6 @@ in
     };
 
   };
-<<<<<<< HEAD
-
-  home.file.".config/hypr/start.sh".source = ./hyprland/start.sh; # symlink hyprland start script
-||||||| parent of 62d49a6 (home and host plumbing for guppy and gusto)
-
-  home.file.".config/hypr/hyprland.conf".source = ./hyprland/hyprland.conf; # symlink hyprland config
-  home.file.".config/hypr/start.sh".source = ./hyprland/start.sh; # symlink hyprland start script
-=======
-  
->>>>>>> 62d49a6 (home and host plumbing for guppy and gusto)
-  home.file.".config/hypr/screenshot.sh".source = ./hyprland/screenshot.sh; # symlink screenshot script
-
-
-  home.file.".config/rofi/themes/rounded-nord.rasi".source = ./rofi/rounded-nord.rasi; # symlink rofi theme
-  home.file.".config/rofi/themes/rounded-common.rasi".source = ./rofi/rounded-common.rasi; # symlink rofi theme
-  home.file.".config/rofi/config.rasi".source = ./rofi/config.rasi; # symlink rofi config
-
-  home.file.".config/rofi/leave/leave.sh".source = ./rofi/leave.sh; # symlink rofi menu for leave button
-
-  home.file.".config/waybar/config".source = ./waybar/config; # symlink waybar config
-  home.file.".config/waybar/style.css".source = ./waybar/style.css; # symlink waybar config style.css
-
-  home.file.".config/fastfetch/config.jsonc".source = ./fastfetch/config.jsonc; # symlink fastfetch config.jsonc
 
   home.file.".config/swappy/config".text = ''
     [Default]

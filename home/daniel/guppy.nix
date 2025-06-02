@@ -8,3 +8,5 @@
     ../common/optional/starship.nix
     ../common/optional/swaync.nix
     ../common/optional/kitty.nix
+    ];
+}
