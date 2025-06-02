@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./fastfetch/
-    ./tmux/
+    ./fastfetch
+    ./tmux
   ];
 }

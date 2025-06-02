@@ -31,7 +31,7 @@
           # > Our main nixos configuration file <
           modules = [
             ./hosts/guppy
-            ./hosts/users/daniel.nix
+            ./hosts/common/users/daniel.nix
             #stylix.nixosModules.stylix
           ];
         };
@@ -39,7 +39,7 @@
           specialArgs = { inherit inputs outputs; };
           modules = [
             ./hosts/gusto
-            ./hosts/users/daniel.nix
+            ./hosts/common/users/daniel.nix
           ];
         };
       };
@@ -52,9 +52,9 @@
           extraSpecialArgs = { inherit inputs outputs; };
           # > Our main home-manager configuration file <
           modules = [
-            ./home/common/core/
-            ./home/daniel/
-            ./home/daniel/guppy/
+            ./home/common/core
+            ./home/daniel
+            ./home/daniel/guppy
             stylix.homeManagerModules.stylix
           ];
         };
@@ -63,9 +63,9 @@
           extraSpecialArgs = { inherit inputs outputs; };
           # > Our main home-manager configuration file <
           modules = [
-            ./home/common/core/
-            ./home/daniel/
-            ./home/daniel/gusto/
+            ./home/common/core
+            ./home/daniel
+            ./home/daniel/gusto
             # stylix.homeManagerModules.stylix # TODO: Do I need stylix on gusto? zsh? 
           ];
         };

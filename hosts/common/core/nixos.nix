@@ -1,5 +1,5 @@
 # Core functionality for every nixos host
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 {
   # Select internationalisation properties.
   i18n = {

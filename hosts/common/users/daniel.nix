@@ -16,7 +16,9 @@
       rsync
       zsh
       git
+      home-manager
     ];
     shell = pkgs.zsh;
   };
+  programs.zsh.enable = true;
 }
