@@ -36,6 +36,7 @@
       ];
       warn-dirty = false;
       auto-optimise-store = true;
+      use-xdg-base-directories = true;
     };
   };
 }

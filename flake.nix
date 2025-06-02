@@ -54,7 +54,7 @@
           modules = [
             ./home/common/core
             ./home/daniel
-            ./home/daniel/guppy
+            ./home/daniel/guppy.nix
             stylix.homeManagerModules.stylix
           ];
         };
@@ -65,7 +65,7 @@
           modules = [
             ./home/common/core
             ./home/daniel
-            ./home/daniel/gusto
+            ./home/daniel/gusto.nix
             # stylix.homeManagerModules.stylix # TODO: Do I need stylix on gusto? zsh? 
           ];
         };
