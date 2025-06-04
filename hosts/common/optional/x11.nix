@@ -4,7 +4,7 @@
   services.xserver = {
     enable = true;
     # Configure keymap in X11
-    xkb.layout = "gb";
+    xkb.layout = config.hostSpec.keyboardLayout;;
     xkb.variant = "";
     # Remove XTerm 
     excludePackages = [ pkgs.xterm ];

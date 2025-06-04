@@ -8,34 +8,28 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ../../modules/host-spec.nix
       ../common/core
       ../common/users/daniel.nix
+      ../common/optional/fonts.nix
     ];
+
+  hostSpec = {
+    hostName = "gusto";
+    username = "daniel";
+    userFullName = "Daniel";
+    isServer = lib.mkForce true;
+    useWindowManager = lib.mkForce false;
+    stateVersion = "23.11";
+  };
 
   # Bootloader.
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";
   boot.loader.grub.useOSProber = true;
 
-  networking = {
-    hostName = "gusto"; # Define your hostname.
-    networkmanager.enable = true; # Enable networking#
-    # Configure network proxy if necessary
-    # proxy.default = "http://user:password@proxy:port/";
-    # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-  };
-
   # Set your time zone.
-  time.timeZone = "Europe/Berlin";
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "gb";
-    variant = "";
-  };
+  time.timeZone = config.hostSpec.timezone;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -80,6 +74,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = config.hostSpec.stateVersion; # Did you read the comment?
 
 }

@@ -2,5 +2,7 @@
 {
   imports = [
     ./nixos.nix
+    ./localisation.nix
+    ./networking.nix
   ];
 }
