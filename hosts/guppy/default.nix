@@ -16,6 +16,7 @@
       ../common/optional/x11.nix
       ../common/optional/printing.nix
       ../common/optional/sddm.nix
+      ../common/optional/fonts.nix
     ];
 
   # Bootloader.
@@ -64,7 +65,6 @@
 
   programs = {
     zsh.enable = true;
-
   };
 
   #XDG portal
@@ -83,9 +83,6 @@
     # nvidia.modesetting.enable = true;
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment = {
@@ -98,13 +95,11 @@
       git
       firefox
       swww # background wallpaper
-      zsh # shell
       wl-clipboard
       home-manager
       libsForQt5.qt5.qtquickcontrols2 # for sddm theme
       libsForQt5.qt5.qtgraphicaleffects # for sddm theme
       lazygit
-      tmux
       docker
       lazydocker
     ];
@@ -128,13 +123,6 @@
 
   #   polarity = "dark";
   # };
-
-
-  # fonts.packages = with pkgs; [ (nerdfonts.override { fonts = [ "FiraCode" ]; }) ];
-
-  fonts.packages = [
-    pkgs.nerd-fonts.fira-code
-  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

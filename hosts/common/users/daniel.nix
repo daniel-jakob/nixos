@@ -17,6 +17,7 @@
       zsh
       git
       home-manager
+      eza
     ];
     shell = pkgs.zsh;
   };
