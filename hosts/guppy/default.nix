@@ -88,7 +88,6 @@
   environment = {
     systemPackages = with pkgs; [
       wget
-      rofi-wayland # app launcher
       vscode
       libnotify
       base16-schemes

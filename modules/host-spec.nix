@@ -83,6 +83,11 @@
       default = false;
       description = "Used to indicate a mobile host";
     };
+    bluetooth = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Used to indicate a host that has bluetooth";
+    };
     isProduction = lib.mkOption {
       type = lib.types.bool;
       default = true;

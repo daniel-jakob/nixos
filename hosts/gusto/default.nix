@@ -17,7 +17,8 @@
   hostSpec = {
     hostName = "gusto";
     username = "daniel";
-    userFullName = "Daniel";
+    userFullName = "Daniel Jakob";
+    handler = "daniel-jakob";
     isServer = lib.mkForce true;
     useWindowManager = lib.mkForce false;
     stateVersion = "23.11";

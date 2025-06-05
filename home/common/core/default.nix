@@ -5,6 +5,10 @@
     ./fastfetch
     ./tmux.nix
     ./zsh.nix
+    ./git.nix
+    ./direnv.nix
+    ./ssh.nix
+    ./git.nix
   ];
 
   programs = {

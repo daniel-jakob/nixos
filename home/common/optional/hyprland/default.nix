@@ -22,7 +22,20 @@ in
 
       # See https://wiki.hyprland.org/Configuring/Monitors/
       # monitor=,preferred,auto,auto
-      monitor = "DVI-D-1, 1920x1080@120,1200x500,1";
+      monitor = (
+        map (
+          m:
+          "${m.name},${
+            if m.enabled then
+              "${toString m.width}x${toString m.height}@${toString m.refreshRate}"
+              + ",${toString m.x}x${toString m.y},1"
+              + ",transform,${toString m.transform}"
+              + ",vrr,${toString m.vrr}"
+            else
+              "disable"
+          }"
+        ) (config.monitors)
+      );
 
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more
 
