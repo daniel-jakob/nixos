@@ -23,5 +23,5 @@
   # otherwise, default to false
   # this is useful for dual booting with Windows, which expects the hardware clock to be in local time
   # see https://nixos.wiki/wiki/Time#Hardware_clock_in_local_time
-  time.hardwareClock = if config.hostSpec.dualBoot then true else false;
+  time.hardwareClockInLocalTime = if config.hostSpec.dualBoot then true else false;
 }

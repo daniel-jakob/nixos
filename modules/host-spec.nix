@@ -68,7 +68,7 @@
     flakeLocation = lib.mkOption {
       type = lib.types.str;
       description = "The flake location of the host in the file system";
-      default = config.hostSpec.home + "mysystem";
+      default = config.hostSpec.home + "/mysystem";
     };
     dualBoot = lib.mkOption {
       type = lib.types.bool;
@@ -76,7 +76,14 @@
       description = "Used to indicate if the host is dual booting with another OS, like Windows";
     };
     persistFolder = lib.mkOption {
-      type = lib.types.str;common/host-
+      type = lib.types.str;
+      description = "The folder to persist data if impermenance is enabled";
+      default = "";
+    };
+    isMinimal = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Used to indicate a minimal host";
     };
     isMobile = lib.mkOption {
       type = lib.types.bool;

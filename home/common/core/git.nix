@@ -1,8 +1,10 @@
 { inputs, config, lib, pkgs, ... }:
 {  
   programs.git = {
+    package = pkgs.gitAndTools.gitFull;
+    enable = true;
     userName = config.hostSpec.handle;
-    userEmail = config.hostSpec.email;
+    userEmail = config.hostSpec.email.personal;
 
     # Enforce SSH to leverage yubikey
     extraConfig = {
@@ -13,9 +15,9 @@
       core.editor = "vim";
       core.pager = "delta";
       help.autocorrect = "prompt";
-      user.signingkey = "${publicKey}";
+      # user.signingkey = "${publicKey}";
 
-      commit.gpgsign = true;
+      # commit.gpgsign = true;
       gpg.format = "ssh";
     };
     ignores = [
