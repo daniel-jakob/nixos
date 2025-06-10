@@ -69,7 +69,6 @@
       nil # NIX LSP
       nixpkgs-fmt
       playerctl
-      eza
       nvd
       nix-output-monitor
       grim
@@ -99,13 +98,6 @@
   };
 
   programs = {
-
-    # Enable home-manager and git
-    git = {
-      enable = true;
-      userName = "daniel";
-      userEmail = "danieljakob1307@gmail.com";
-    };
 
     bash = {
       enable = true;

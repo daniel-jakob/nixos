@@ -43,6 +43,7 @@
           };
           transform = lib.mkOption {
             type = lib.types.int;
+            description = "Defines the transformation/rotation of the monitor.\n0 = normal, 1 = 90 degrees clockwise, 2 = 180 degrees, 3 = 90 degrees counter-clockwise (270 degrees).\nhttps://wiki.hyprland.org/Configuring/Monitors/";
             default = 0;
           };
           enabled = lib.mkOption {

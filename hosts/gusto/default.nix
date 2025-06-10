@@ -14,6 +14,12 @@ in
       ../common/core
       ../common/users/daniel.nix
       ../common/optional/fonts.nix
+      ./homelab/jellyfin.nix
+      ./homelab/immich.nix
+      ./homelab/qbit.nix
+      ./homelab/traefik.nix
+      ./homelab/seer.nix
+      ../common/optional/nixpkgs-insecure-pkgs.nix # (temp, hopefully) sonarr fix
     ];
 
   hostSpec = hostSpecAttrs;
