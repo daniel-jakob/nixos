@@ -35,6 +35,8 @@ in
     "d ${mediaDir}/movies 0775 root media -"
     "d ${mediaDir}/tv 0775 root media -"
     "d ${mediaDir}/audiobooks 0775 root media -"
+    "d ${mediaDir}/music 0775 root media -"
+    "d ${mediaDir}/books 0775 root media -"
   ];
   hardware.intelAcceleration = {
     enable = true;

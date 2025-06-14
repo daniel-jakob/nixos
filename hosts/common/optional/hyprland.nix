@@ -1,7 +1,7 @@
 { pkgs, lib, config, ... }:
 {
   # Enable Hyprland
-  prograns.hyprland = {
+  programs.hyprland = {
     enable = true;
     # nvidiaPatches = true;
     xwayland.enable = true;

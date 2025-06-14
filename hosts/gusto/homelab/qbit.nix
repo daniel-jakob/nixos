@@ -8,12 +8,14 @@ in
   virtualisation.oci-containers.containers = {
 
     gluetun = {
-      image = "qdm12/gluetun";
+      image = "ghcr.io/qdm12/gluetun";
       environment = {
         VPN_SERVICE_PROVIDER = "surfshark";
-        VPN_TYPE = "wireguard"; # or openvpn
-        WIREGUARD_PRIVATE_KEY = "YOUR_WIREGUARD_PRIVATE_KEY"; # or OPENVPN_USER and OPENVPN_PASSWORD
-        SERVER_COUNTRIES = "us"; # or a comma-separated list
+        VPN_TYPE = "openvpn"; # or wireguard
+        OPENVPN_USER = "BdVgKj5FWZSLSWduj6kMcnbv";
+        OPENVPN_PASSWORD = "x8JLMSL54UetNHfbTjm9hNLh";
+        TZ = "Europe/Berlin";
+        SERVER_COUNTRIES = "Germany"; # or a comma-separated list
         DNS_ADDRESS = "1.1.1.1";
         FIREWALL_VPN_INPUT_PORTS = "6881"; # Torrent port
       };
@@ -35,7 +37,8 @@ in
       };
       volumes = [
         "/var/lib/qbittorrent/config:/config"
-        "${mediaDir}/torrents:/downloads"
+        "${mediaDir}/torrents:${mediaDir}/torrents"
+        "${mediaDir}/torrents/.incomplete:${mediaDir}/torrents/.incomplete"
       ];
       # Use extraOptions to pass the --network flag directly to Podman
       extraOptions = [

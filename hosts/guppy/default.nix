@@ -10,7 +10,6 @@
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ../common/core
-      ../common/users/daniel.nix
       ../common/optional/audio.nix
       ../common/optional/hyprland.nix
       ../common/optional/x11.nix

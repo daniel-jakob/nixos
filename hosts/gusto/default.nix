@@ -12,7 +12,6 @@ in
       ./hardware-configuration.nix
       ../../modules/host-spec.nix
       ../common/core
-      ../common/users/daniel.nix
       ../common/optional/fonts.nix
       ./homelab/jellyfin.nix
       ./homelab/immich.nix
@@ -25,12 +24,14 @@ in
   hostSpec = hostSpecAttrs;
 
   # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
-
-  # Set your time zone.
-  time.timeZone = config.hostSpec.timezone;
+  boot.loader = {
+    timeout = 0; # Set to 0 to skip the boot menu
+    grub = { 
+      enable = true;
+      device = "/dev/sda";
+      useOSProber = true;
+    };
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget

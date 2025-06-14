@@ -31,7 +31,6 @@
           # > Our main nixos configuration file <
           modules = [
             ./hosts/guppy
-            ./hosts/common/users/daniel.nix
             #stylix.nixosModules.stylix
           ];
         };
@@ -39,7 +38,6 @@
           specialArgs = { inherit inputs outputs; };
           modules = [
             ./hosts/gusto
-            ./hosts/common/users/daniel.nix
           ];
         };
       };
@@ -61,7 +59,7 @@
         "daniel@gusto" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = { 
-	    inherit inputs outputs;
+	          inherit inputs outputs;
             hostSpec = import ./hosts/gusto/host-spec-attrs.nix;
           };
           # > Our main home-manager configuration file <

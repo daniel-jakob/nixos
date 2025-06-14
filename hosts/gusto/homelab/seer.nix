@@ -19,7 +19,7 @@
 
   # Sonarr is a PVR for Usenet and BitTorrent users, allowing you to automate the downloading of TV series
   services.sonarr = {
-    enable = true; # package is broken at the moment
+    enable = true;
     group = "media";
     openFirewall = true;  # Opens port 8989
   };
@@ -60,5 +60,5 @@
   # };
 
   # Open firewall ports
-  networking.firewall.allowedTCPPorts = [ 5055 7878 8989 9117 ];
+  networking.firewall.allowedTCPPorts = [ 5055 7878 8989 ];
 }
