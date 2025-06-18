@@ -8,7 +8,7 @@ in
   virtualisation.oci-containers.containers = {
 
     gluetun = {
-      image = "ghcr.io/qdm12/gluetun";
+      image = "docker.io/qmcgaw/gluetun:v3.40";
       environment = {
         VPN_SERVICE_PROVIDER = "surfshark";
         VPN_TYPE = "openvpn"; # or wireguard
@@ -16,10 +16,10 @@ in
         OPENVPN_PASSWORD = "x8JLMSL54UetNHfbTjm9hNLh";
         TZ = "Europe/Berlin";
         SERVER_COUNTRIES = "Germany"; # or a comma-separated list
-        DNS_ADDRESS = "1.1.1.1";
+        DNS_ADDRESS = "162.252.172.57";
         FIREWALL_VPN_INPUT_PORTS = "6881"; # Torrent port
       };
-      ports = [ "6881:6881" "6881:6881/udp" "8080:8080" ];
+      ports = [ "6881:6881" "6881:6881/udp" "8080:8080" "8888:8888" ];
       extraOptions = [
         "--cap-add=NET_ADMIN"
         "--device=/dev/net/tun:/dev/net/tun"

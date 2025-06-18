@@ -136,10 +136,10 @@
       default = false;
       description = "Used to indicate a host that uses neovim for terminals";
     };
-    useWindowManager = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = "Used to indicate a host that uses a window manager";
+    windowManager = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      description = "The window manager to use (e.g., hyprland, sway, etc).";
     };
     hdr = lib.mkOption {
       type = lib.types.bool;

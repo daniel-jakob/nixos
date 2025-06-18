@@ -47,11 +47,12 @@
       homeConfigurations = {
         "daniel@guppy" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = { 
+	          inherit inputs outputs;
+            hostSpec = import ./hosts/guppy/host-spec-attrs.nix;
+          };
           # > Our main home-manager configuration file <
           modules = [
-            ./home/common/core
-            ./home/daniel
             ./home/daniel/guppy.nix
             stylix.homeManagerModules.stylix
           ];
@@ -64,8 +65,6 @@
           };
           # > Our main home-manager configuration file <
           modules = [
-            ./home/common/core
-            ./home/daniel
             ./home/daniel/gusto.nix
             # stylix.homeManagerModules.stylix # TODO: Do I need stylix on gusto? zsh? 
           ];

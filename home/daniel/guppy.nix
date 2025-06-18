@@ -1,7 +1,8 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports = [    
+  imports = [
+    ../common/core
     ../common/optional/waybar
     ../common/optional/rofi
     ../common/optional/hyprland

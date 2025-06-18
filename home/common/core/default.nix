@@ -10,7 +10,13 @@
     ./direnv.nix
     ./ssh.nix
     ./zoxide.nix
+    ./xdg.nix
   ];
+
+  home = {
+    username = config.hostSpec.username;
+    homeDirectory = ${config.hostSpec.home};
+  };
 
   programs = {
     home-manager.enable = true;

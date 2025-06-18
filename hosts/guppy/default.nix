@@ -9,14 +9,15 @@
     [
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ../../modules/host-spec.nix
       ../common/core
       ../common/optional/audio.nix
-      ../common/optional/hyprland.nix
-      ../common/optional/x11.nix
       ../common/optional/printing.nix
       ../common/optional/sddm.nix
       ../common/optional/fonts.nix
     ];
+
+  hostSpec = import ./host-spec-attrs.nix;
 
   # Bootloader.
   boot = {
@@ -32,6 +33,7 @@
     kernelPackages = pkgs.linuxPackages_latest; # Use the latest kernel.
     supportedFilesystems = [ "ntfs" ];
   };
+
   fileSystems."/mnt/FireCuda" = {
     device = "/dev/disk/by-uuid/CAFA34CCFA34B713";
     fsType = "ntfs";
@@ -41,20 +43,6 @@
     device = "/dev/disk/by-uuid/B0EC3EB1EC3E71A8";
     fsType = "ntfs";
     options = [ "rw" ];
-  };
-
-  networking = {
-    hostName = "guppy"; # Define your hostname.
-    networkmanager.enable = true; # Enable networking#
-    # Configure network proxy if necessary
-    # proxy.default = "http://user:password@proxy:port/";
-    # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-  };
-
-  # Set your time zone.
-  time = {
-    timeZone = "Europe/Berlin";
-    hardwareClockInLocalTime = true;
   };
 
   security.pam.services.swaylock = { }; # for swaylock unlocking purposes

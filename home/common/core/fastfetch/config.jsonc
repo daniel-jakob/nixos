@@ -90,18 +90,18 @@
 			"keyColor": "32"
 		},
 		{
+			"type": "cursor",
+			"key": "│ ├󰇀",
+			"keyColor": "32"
+		},
+		{
 			"type": "terminal",
 			"key": "│ ├",
 			"keyColor": "32"
 		},
 		{
 			"type": "terminalfont",
-			"key": "│ ├",
-			"keyColor": "32"
-		},
-		{
-			"type": "cursor",
-			"key": "└ └󰇀",
+			"key": "└ └",
 			"keyColor": "32"
 		},
 		{

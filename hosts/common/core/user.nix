@@ -10,7 +10,7 @@ in
       isNormalUser = true;
       description = hostSpec.userFullName;
       extraGroups = [ "networkmanager" "wheel" ];
-      packages = with pkgs; [ # no matter the environment, these packages will be installed
+      packages = with pkgs; [
         rsync
         git
       ];

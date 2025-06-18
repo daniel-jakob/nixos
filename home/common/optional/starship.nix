@@ -202,10 +202,13 @@
       directory.substitutions = {
         # Here is how you can shorten some long paths by text replacement;
         # similar to mapped_locations in Oh My Posh:;
-        "Documents" = " ";
+        "Documents" = "󰈙 ";
         "Downloads" = " ";
         "Music" = " ";
         "Pictures" = " ";
+        "Videos" = " ";
+        "~" = " ~";
+        "~/.config" = " ";
         # Keep in mind that the order matters. For example:;
         # "Important Documents" = "  ";
         # will not be replaced, because "Documents" was already substituted before.;

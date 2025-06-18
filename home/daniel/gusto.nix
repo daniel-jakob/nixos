@@ -2,6 +2,7 @@
 
 {
   imports = [    
+    ../common/core
     ../common/optional/starship.nix
     ../common/optional/eza.nix
     ];
