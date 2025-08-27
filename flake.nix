@@ -69,6 +69,18 @@
             # stylix.homeManagerModules.stylix # TODO: Do I need stylix on gusto? zsh? 
           ];
         };
+        "jakob@troll" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+          extraSpecialArgs = { 
+            inherit inputs outputs;
+            hostSpec = import ./home/troll/host-spec-attrs.nix;
+          };
+          # > Our main home-manager configuration file <
+          modules = [
+            ./home/jakob/troll.nix
+            stylix.homeManagerModules.stylix
+          ];
+        };
       };
     };
 }
