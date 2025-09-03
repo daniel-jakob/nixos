@@ -4,7 +4,7 @@
   userFullName = "Daniel Jakob";
   handle = "daniel-jakob";
   email = { personal = "daniel@jakob.ie"; };
-  WindowManager = "hyprland";
+  windowManager = "hyprland";
   stateVersion = "24.05";
   dualBoot = true;
   isAutoStyled = true;
