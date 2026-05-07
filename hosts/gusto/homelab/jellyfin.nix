@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 let 
-  mediaDir = "/media"; # TODO: make a config.hostSpec field for isHomelab.mediaDir
+  mediaDir = config.hostSpec.homelab.mediaDir;
 in
 {
   imports = [
@@ -25,11 +25,12 @@ in
     SupplementaryGroups = [ "media" ];  # If you have a media group
   };
 
-  # Create media group if you want to manage media access
-  users.groups.media = {};
+  # Create media group with a specific GID (fixes permissions issues with directory ownership)
+  users.groups.media = {
+    gid = 987;
+  };
 
   # Create the directories that the services will need with the correct permissions
-  # TODO: make a config.hostSpec field for isHomelab.mediaDir
   systemd.tmpfiles.rules = [
     "d ${mediaDir} 0775 root media -"
     "d ${mediaDir}/movies 0775 root media -"
@@ -38,8 +39,8 @@ in
     "d ${mediaDir}/music 0775 root media -"
     "d ${mediaDir}/books 0775 root media -"
   ];
-  hardware.intelAcceleration = {
-    enable = true;
-    users = [ "jellyfin" ];
-  };
+  # hardware.intelAcceleration = {
+  #   enable = true;
+  #   users = [ "jellyfin" ];
+  # };
 }

@@ -1,13 +1,6 @@
 # Core functionality for every nixos host
 { config, lib, pkgs, ... }:
 {
-  programs.nh = {
-    enable = true;
-    clean.enable = true;
-    clean.extraArgs = "--keep-since 4d --keep 3";
-    flake = config.hostSpec.flakeLocation;
-  };
-
   # Enable firmware with a license allowing redistribution
   hardware.enableRedistributableFirmware = true;
 

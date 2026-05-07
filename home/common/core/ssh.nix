@@ -2,13 +2,17 @@
 {
   programs.ssh = {
     enable = true;
-    addKeysToAgent = "yes";
-    forwardAgent = true;
-    # Avoids infinite hang if control socket connection interrupted. ex: vpn goes down/up
-    serverAliveCountMax = 3;
-    serverAliveInterval = 5; # 3 * 5s
+    enableDefaultConfig = false;
+
+    matchBlocks = {
+      "*" = {
+        addKeysToAgent = "yes";
+        forwardAgent = true;
+        serverAliveCountMax = 3;
+        serverAliveInterval = 5;
+      };
+    };
   };
-  services.ssh-agent = {
-    enable = true;
-  };
+
+  services.ssh-agent.enable = true;
 }

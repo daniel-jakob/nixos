@@ -25,6 +25,44 @@
       type = lib.types.attrsOf lib.types.anything;
       description = "An attribute set of networking information";
     };
+    isHomelab = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Used to indicate a host running homelab services";
+    };
+    homelab = lib.mkOption {
+      default = { };
+      description = "An attribute set of homelab-related settings";
+      type = lib.types.submodule {
+        options = {
+          mediaDir = lib.mkOption {
+            type = lib.types.str;
+            default = "/media";
+            description = "Base directory for homelab media storage";
+          };
+          network = lib.mkOption {
+            default = { };
+            description = "Network inventory for homelab devices";
+            type = lib.types.submodule {
+              options = {
+                devices = lib.mkOption {
+                  default = { };
+                  description = "Named homelab devices and their IP addresses";
+                  type = lib.types.attrsOf (lib.types.submodule {
+                    options = {
+                      ip = lib.mkOption {
+                        type = lib.types.str;
+                        description = "IP address of the device";
+                      };
+                    };
+                  });
+                };
+              };
+            };
+          };
+        };
+      };
+    };
     wifi = lib.mkOption {
       type = lib.types.bool;
       default = false;
@@ -169,6 +207,10 @@
         {
           assertion = !isImpermanent || (isImpermanent && !("${config.hostSpec.persistFolder}" == ""));
           message = "config.system.impermanence.enable is true but no persistFolder path is provided";
+        }
+        {
+          assertion = !config.hostSpec.isHomelab || config.hostSpec.homelab.mediaDir != "";
+          message = "isHomelab is true but hostSpec.homelab.mediaDir is empty";
         }
       ];
   };

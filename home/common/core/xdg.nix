@@ -12,26 +12,26 @@
   xdg = {
     mime.enable = true;
 
-    userDirs = {
-      enable = true;
-      directories = {
-        DOWNLOAD = "${config.hostSpec.home}/Downloads";
-        DESKTOP = "${config.hostSpec.home}/Desktop";
-        TEMPLATES = "${config.hostSpec.home}/Templates";
-        PUBLICSHARE = "${config.hostSpec.home}/Public";
-        DOCUMENTS = "${config.hostSpec.home}/Documents";
-        MUSIC = "${config.hostSpec.home}/Music";
-        PICTURES = "${config.hostSpec.home}/Pictures";
-        VIDEOS = "${config.hostSpec.home}/Videos";
-        DOWNLOAD = "${config.hostSpec.home}/Downloads";
+    # userDirs = {
+    #   enable = true;
+    #   directories = {
+    #     DOWNLOAD = "${config.hostSpec.home}/Downloads";
+    #     DESKTOP = "${config.hostSpec.home}/Desktop";
+    #     TEMPLATES = "${config.hostSpec.home}/Templates";
+    #     PUBLICSHARE = "${config.hostSpec.home}/Public";
+    #     DOCUMENTS = "${config.hostSpec.home}/Documents";
+    #     MUSIC = "${config.hostSpec.home}/Music";
+    #     PICTURES = "${config.hostSpec.home}/Pictures";
+    #     VIDEOS = "${config.hostSpec.home}/Videos";
 
-      };
-    };
+    #   };
+    # };
     
     mimeApps = {
       enable = true;
       defaultApplications = {
         "text/html" = "firefox.desktop"; # Example for setting Firefox as the default web browser
+      };
     };
   };
 }

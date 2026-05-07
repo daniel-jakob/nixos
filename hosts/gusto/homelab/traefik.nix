@@ -1,9 +1,70 @@
-{ config, pkgs, ... }:
+{ config, lib, ... }:
+let
+  baseDomain = config.hostSpec.domain;
+  devices = config.hostSpec.homelab.network.devices;
+  reverseProxyRouting = import ../../../modules/reverse-proxy-routing.nix { inherit lib; };
+
+  standardServices = [
+    { name = "jellyfin";  port = 8096; }
+    { name = "immich";    port = 2283; subdomain = "photos"; priority = 1; }
+    { name = "immich-public-proxy"; port = 2284; subdomain = "photos"; pathPrefix = "/share"; localOnly = false; priority = 2; }
+    { name = "mealie";    port = 9000; subdomain = "food"; }
+    { name = "forgejo";   port = 3001; subdomain = "git"; }
+    { name = "paperless"; port = 28981; }
+    { name = "music";     port = 4533; host = devices.gusto.ip; }
+    { name = "radarr";    port = 7878; }
+    { name = "sonarr";    port = 8989; }
+    { name = "lidarr";    port = 8686; }
+    { name = "readarr";   port = 8787; }
+    { name = "prowlarr";  port = 9696; }
+    { name = "bazarr";    port = 6767; }
+    { name = "seerr";     port = 5055; }
+    { name = "qbit";      port = 8080; middlewares = [ "qbit-security" ]; }
+    { name = "vault";     port = 8222; }
+    { name = "hassio";    port = 8123; subdomain = "home"; host = devices.hassio.ip; }
+    { name = "baikal";    port = 8008; subdomain = "calendar";}
+    { name = "dawarich";  port = 3002; subdomain = "timeline"; }
+  ];
+
+  traefikDefaults = {
+    host = "127.0.0.1";
+    entryPoints = [ "websecure" ];
+    tls = true;
+    certResolver = "letsencrypt";
+    priority = null;
+    middlewares = [ ];
+    localOnly = true;
+    pathPrefix = null;
+    domain = null;
+  };
+
+  generated = reverseProxyRouting.generateTraefik {
+    inherit baseDomain;
+    services = standardServices;
+    defaults = traefikDefaults;
+  };
+in
 {
+  sops.secrets.cloudflare_dns_api_token = {
+    owner = "traefik";
+    group = "traefik";
+    mode = "0400";
+    restartUnits = [ "traefik.service" ];
+  };
+
+  sops.templates.traefik_cloudflare_env = {
+    owner = "traefik";
+    group = "traefik";
+    mode = "0400";
+    content = ''
+      CF_DNS_API_TOKEN=${config.sops.placeholder.cloudflare_dns_api_token}
+    '';
+  };
 
   # Enable Traefik service
   services.traefik = {
     enable = true;
+    environmentFiles = [ config.sops.templates.traefik_cloudflare_env.path ];
 
     # Static configuration
     staticConfigOptions = {
@@ -17,20 +78,22 @@
       };
 
       api = {
-        dashboard = true;
+        dashboard = false;
         insecure = false;  # Only for testing!
+      };
+      
+      # Add Let's Encrypt ACME resolver
+      certificatesResolvers.letsencrypt.acme = {
+        email = config.hostSpec.email.personal;
+        storage = "${config.services.traefik.dataDir}/acme.json";
+        dnsChallenge.provider = "cloudflare";
       };
     };
 
     # Dynamic configuration
     dynamicConfigOptions = {
       http = {
-        # Define services
-        services = {
-          jellyfin.loadBalancer.servers = [{ url = "http://127.0.0.1:8096"; }];
-          immich.loadBalancer.servers = [{ url = "http://127.0.0.1:2283"; }];
-          qbit.loadBalancer.servers = [{ url = "http://127.0.0.1:8080"; }];
-        };
+        services = generated.generatedServices;
 
         # Define middlewares
         middlewares = {
@@ -40,24 +103,35 @@
               permanent = true;
             };
           };
+
+          qbit-security = {
+            headers = {
+              browserXssFilter = true;
+              contentTypeNosniff = true;
+              forceSTSHeader = true;
+              stsSeconds = 315360000;
+              stsIncludeSubdomains = true;
+              stsPreload = true;
+              customFrameOptionsValue = "allow-from https://${baseDomain}";
+            };
+          };
+
+          local-only = {
+            ipWhiteList.sourceRange = [
+              "127.0.0.1/32"      # the server itself
+              "192.168.0.0/24"    # Everything from 192.168.0.0 to 192.168.0.255
+              "192.168.1.0/24"    # Everything from 192.168.1.0 to 192.168.1.255
+              "10.0.0.0/8"        # If you use VPNs like Tailscale
+            ];
+          };
         };
 
-        # Define routers
-        routers = {
-          jellyfin = {
-            rule = "Host(`jellyfin.jakob.ie`)";
+        routers = generated.generatedRouters // {
+          redirect = {
             entryPoints = [ "web" ];
+            rule = "HostRegexp(`.+`)";
+            middlewares = [ "redirect-to-https" ];
             service = "jellyfin";
-          };
-          immich = {
-            rule = "Host(`photos.jakob.ie`)";
-            entryPoints = [ "web" ];
-            service = "immich";
-          };
-          qbit = {
-            rule = "Host(`qbit.jakob.ie`)";
-            entryPoints = [ "web" ];
-            service = "qbit";
           };
         };
       };

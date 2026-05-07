@@ -13,12 +13,21 @@ in
       ../../modules/host-spec.nix
       ../common/core
       ../common/optional/fonts.nix
+      ../common/optional/nixpkgs-insecure-pkgs.nix # (temp, hopefully) sonarr fix
+    ]
+    ++ lib.optionals (hostSpecAttrs.isHomelab or false) [
       ./homelab/jellyfin.nix
       ./homelab/immich.nix
       ./homelab/qbit.nix
       ./homelab/traefik.nix
       ./homelab/seer.nix
-      ../common/optional/nixpkgs-insecure-pkgs.nix # (temp, hopefully) sonarr fix
+      ./homelab/paperless.nix
+      ./homelab/blocky.nix
+      ./homelab/mealie.nix
+      ./homelab/forgejo.nix
+      ./homelab/navidrome.nix
+      ./homelab/vaultwarden.nix
+      ./homelab/dawarich.nix
     ];
 
   hostSpec = hostSpecAttrs;
@@ -38,6 +47,8 @@ in
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
+    ncurses
+    comma
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -62,6 +73,42 @@ in
       X11Forwarding = false;
       PermitRootLogin = "prohibit-password"; # "yes", "without-password", "prohibit-password", "forced-commands-only", "no"
     };
+  };
+
+  networking.homelabWireguard = {
+    enable = true;
+    role = "server";
+    interface = "wg0";
+    vpnSubnet = "10.100.0.0/24";
+    address = "10.100.0.1/24";
+    listenPort = 51820;
+    privateKeySopsKey = "wireguard_server_private_key";
+
+    server = {
+      # This is the interface shown in your gusto hardware config comment.
+      externalInterface = "enp0s31f6";
+      peers = [
+        # {
+        #   # guppy
+        #   publicKey = "REPLACE_WITH_GUPPY_PUBLIC_KEY";
+        #   allowedIPs = [ "10.100.0.2/32" ];
+        # }
+        {
+          # phone
+          publicKey = "AYsoXHvJhhggl5petQKYPVE9tHsPiZeqWEHJA13yhVI=";
+          allowedIPs = [ "10.100.0.3/32" ];
+        }
+      ];
+    };
+  };
+
+  homelab.smtp = {
+    enable = true;
+    host = "smtp.postale.io";
+    port = 465;
+    from = config.hostSpec.email.personal;
+    username = config.hostSpec.email.personal;
+    passwordSopsKey = "smtp_password";
   };
 
   # Open ports in the firewall.

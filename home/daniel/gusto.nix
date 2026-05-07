@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, hostSpec, ... }:
 
 {
   imports = [    
@@ -7,8 +7,7 @@
     ../common/optional/eza.nix
     ];
 
-  home = {
-    # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-    stateVersion = config.hostSpec.stateVersion;
-  };
+  sops.secrets.hm_sample_secret = { };
+
+  home.file.".config/sops-sample/secret.txt".source = config.sops.secrets.hm_sample_secret.path;
 }

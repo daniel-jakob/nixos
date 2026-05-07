@@ -1,13 +1,16 @@
 { inputs, config, lib, pkgs, ... }:
+let
+  hostSpec = config.hostSpec;
+in
 {  
   programs.git = {
-    package = pkgs.gitAndTools.gitFull;
+    package = pkgs.gitFull;
     enable = true;
-    userName = config.hostSpec.handle;
-    userEmail = config.hostSpec.email.personal;
 
-    # Enforce SSH to leverage yubikey
-    extraConfig = {
+    settings = {
+      user.name = hostSpec.handle;
+      user.email = hostSpec.email.personal;
+
       log.showSignature = "true";
       init.defaultBranch = "main";
       pull.rebase = "true";

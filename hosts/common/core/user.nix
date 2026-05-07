@@ -9,7 +9,7 @@ in
       name = hostSpec.username;
       isNormalUser = true;
       description = hostSpec.userFullName;
-      extraGroups = [ "networkmanager" "wheel" ];
+      extraGroups = [ "networkmanager" "wheel" "video" "input" "render" ];
       packages = with pkgs; [
         rsync
         git

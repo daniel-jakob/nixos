@@ -10,13 +10,8 @@
     ../common/optional/swaync.nix
     ../common/optional/kitty.nix
     ../common/optional/cursor.nix
-    ../../../modules/monitors.nix # This is a custom module for monitor configuration
+    ../../modules/monitors.nix # This is a custom module for monitor configuration
     ];
-
-  home = {
-    # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-    stateVersion = "24.05";
-  };
 
   # ========== Host-specific Monitor Spec ==========
   #
@@ -25,9 +20,9 @@
   # If on hyprland, use `hyprctl monitors` to get monitor info.
   # https://wiki.hyprland.org/Configuring/Monitors/
   #   ______   
-  #  |      |     ------ 
+  #  |      |   ----------- 
   #  | DP-1 |  | HDMI-A-1 | 
-  #  |      |     ------ 
+  #  |      |  -----------
   #  -------   
   monitors = [
     {
@@ -36,13 +31,13 @@
       workspace = "1";
       primary = true;
     }
-    # { # Unfortunately, this monitor monitor is kill :,-(
-    #   name = "DP-1";
-    #   height = 1200;
-    #   x = -1920;
-    #   refreshRate = 75;
-    #   workspace = "8";
-    #   transform = 1; # 90 degrees clockwise
-    # }
+    {
+      name = "DP-1";
+      height = 1200;
+      x = -1920;
+      refreshRate = 100;
+      workspace = "8";
+      transform = 1; # 90 degrees clockwise
+    }
   ];
 }

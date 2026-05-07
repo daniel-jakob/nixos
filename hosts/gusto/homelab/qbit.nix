@@ -1,8 +1,7 @@
 { config, pkgs, ... }:
 let
-  mediaDir = "/media"; # TODO: make a config.hostSpec field for isHomelab.mediaDir
+  mediaDir = config.hostSpec.homelab.mediaDir;
 in
-# https://github.com/zmitchell/nixos-configs/blob/main/modules/media_server.nix
 {
   # Enable OCI container support
   virtualisation.oci-containers.containers = {
@@ -19,7 +18,12 @@ in
         DNS_ADDRESS = "162.252.172.57";
         FIREWALL_VPN_INPUT_PORTS = "6881"; # Torrent port
       };
-      ports = [ "6881:6881" "6881:6881/udp" "8080:8080" "8888:8888" ];
+      ports = [ 
+        "6881:6881"
+        "6881:6881/udp"
+        "127.0.0.1:8080:8080" # qBit WebUI reachable only locally (for Traefik)
+        "127.0.0.1:8888:8888"
+      ];
       extraOptions = [
         "--cap-add=NET_ADMIN"
         "--device=/dev/net/tun:/dev/net/tun"
@@ -30,15 +34,14 @@ in
     qbittorrent = {
       image = "lscr.io/linuxserver/qbittorrent:latest";
       environment = {
-        PUID = "1000";
-        PGID = "1000";
+        PUID = "${toString config.users.users.qbit.uid}";
+        PGID = "${toString config.users.groups.media.gid}";
         TZ = "Europe/Berlin";
         WEBUI_PORT = "8080";
       };
       volumes = [
         "/var/lib/qbittorrent/config:/config"
         "${mediaDir}/torrents:${mediaDir}/torrents"
-        "${mediaDir}/torrents/.incomplete:${mediaDir}/torrents/.incomplete"
       ];
       # Use extraOptions to pass the --network flag directly to Podman
       extraOptions = [
@@ -50,21 +53,32 @@ in
 
   # Open required ports in firewall
   networking.firewall = {
-    allowedTCPPorts = [ 6881 8080 ];
+    allowedTCPPorts = [ 6881 ];
     allowedUDPPorts = [ 6881 ];
   };
 
-  # TODO: hostSpec option for media directory
   # Create directories with correct permissions
   systemd.tmpfiles.rules = [
-    "d /var/lib/qbittorrent/config 0755 root media -"
+    "d /var/lib/qbittorrent/config 0775 qbit media -"
 
     # These are the actual directories on the host that qBittorrent will use via the mount
-    "d ${mediaDir}/torrents 0775 root media -"
-    "d ${mediaDir}/torrents/.incomplete 0775 root media -"
-    "d ${mediaDir}/torrents/.watch 0775 root media -"
-    "d ${mediaDir}/torrents/radarr 0775 root media -"
-    "d ${mediaDir}/torrents/sonarr 0775 root media -"
-    "d ${mediaDir}/torrents/bazarr 0775 root media -"
+    "d ${mediaDir}/torrents 0775 qbit media -"
+    "d ${mediaDir}/torrents/.incomplete 0775 qbit media -"
+    "d ${mediaDir}/torrents/.watch 0775 qbit media -"
+    "d ${mediaDir}/torrents/radarr 0775 qbit media -"
+    "d ${mediaDir}/torrents/sonarr 0775 qbit media -"
+    "d ${mediaDir}/torrents/bazarr 0775 qbit media -"
+
+    "z ${mediaDir}/torrents 0775 qbit media -"
+    "Z ${mediaDir}/torrents/.incomplete 0775 qbit media -"
+    "Z ${mediaDir}/torrents/radarr 0775 qbit media -"
+    "Z ${mediaDir}/torrents/sonarr 0775 qbit media -"
+    "Z ${mediaDir}/torrents/bazarr 0775 qbit media -"
   ];
+
+  users.users.qbit = {
+    isSystemUser = true;
+    uid = 985;
+    group = "media";
+  };
 }

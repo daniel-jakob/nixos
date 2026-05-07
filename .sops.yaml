@@ -1,0 +1,15 @@
+keys:
+    - &users:
+      - &daniel age1fzchxkf56fl3lzdz503cge52e24szs5w7nucvjmfwlur8lzl4cysrdj5nv
+    - &hosts:
+      - &gusto age1yz886aexgyacpr93zy9avhlwpwlv3y2fj2mmtfnsyru9xlwz2pjsp5p32l
+creation_rules:
+    - path_regex: ^secrets/hosts/[^/]+\.ya?ml$
+      key_groups:
+          - age:
+                - *gusto
+                - *daniel
+    - path_regex: ^secrets/home/daniel/[^/]+\\.ya?ml$
+      key_groups:
+          - age:
+                - *daniel

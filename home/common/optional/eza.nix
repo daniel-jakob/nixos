@@ -1,6 +1,5 @@
 { pkgs, lib, config, ... }:
 {
-  # Enable Hyprland
   programs.eza = {
     enable = true;
     icons = "auto";

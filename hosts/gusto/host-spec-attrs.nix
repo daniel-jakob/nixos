@@ -5,6 +5,15 @@
   handle = "daniel-jakob";
   email = { personal = "daniel@jakob.ie"; };
   isServer = true;
-  useWindowManager = false;
+  isHomelab = true;
+  homelab = {
+    mediaDir = "/media";
+    network.devices = {
+      gusto.ip = "192.168.1.222";
+      modem.ip = "192.168.0.1";
+      router.ip = "192.168.1.1";
+      hassio.ip = "192.168.1.166";
+    };
+  };
   stateVersion = "23.11";
 }

@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, config, ... }:
 let
   myAliases = import ./aliases.nix;
 in
@@ -8,7 +8,7 @@ in
     shellAliases = myAliases;
     enableCompletion = true;
     autosuggestion.enable = true;
-    dotDir = ".config/zsh";
+    dotDir = "${config.xdg.configHome}/zsh";
     syntaxHighlighting.enable = true;
     history = {
       path = "$XDG_CACHE_HOME/zsh/history";
@@ -16,15 +16,24 @@ in
       size = 10000;
     };
     plugins = [
-      # Add your zsh plugins here
+    # Add your zsh plugins here
     ];
-    initContent = ''
-      # Completion files: Use XDG dirs
-      [ -d "$XDG_CACHE_HOME"/zsh ] || mkdir -p "$XDG_CACHE_HOME"/zsh
-      zstyle ':completion:*' cache-path "$XDG_CACHE_HOME"/zsh/zcompcache
-      compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-$ZSH_VERSION
+    initContent = lib.mkMerge [
+      (lib.mkOrder 500 ''
+        # If non-interactive shell: stop immediately
+        if [[ ! -o interactive ]]; then
+          return
+        fi
+      '')
 
-      fastfetch
-    '';
+      (lib.mkOrder 900 ''
+        #   # Completion files: Use XDG dirs
+        #   [ -d "$XDG_CACHE_HOME"/zsh ] || mkdir -p "$XDG_CACHE_HOME"/zsh
+        #   zstyle ':completion:*' cache-path "$XDG_CACHE_HOME"/zsh/zcompcache
+        #   compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-$ZSH_VERSION
+
+        #   fastfetch
+      '')
+    ];
   };
 }

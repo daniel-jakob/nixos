@@ -15,6 +15,9 @@
       ../common/optional/printing.nix
       ../common/optional/sddm.nix
       ../common/optional/fonts.nix
+      ../common/optional/wifi.nix
+      ../common/optional/hyprland.nix
+      ../common/optional/x11.nix
     ];
 
   hostSpec = import ./host-spec-attrs.nix;
@@ -122,7 +125,29 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = true;
+
+  networking.homelabWireguard = {
+    enable = true;
+    role = "client";
+    interface = "wg0";
+    vpnSubnet = "10.100.0.0/24";
+    address = "10.100.0.2/32";
+    privateKeyFile = "/etc/wireguard/guppy_private.key";
+    # Alternative with sops-nix:
+    # privateKeySopsKey = "wireguard_client_private_key";
+
+    client = {
+      endpoint = "REPLACE_WITH_YOUR_DDNS_OR_PUBLIC_IP:51820";
+      serverPublicKey = "REPLACE_WITH_SERVER_PUBLIC_KEY";
+      routeAllTraffic = false;
+      splitTunnelCIDRs = [
+        "192.168.0.0/24"
+        "192.168.1.0/24"
+      ];
+      persistentKeepalive = 25;
+    };
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

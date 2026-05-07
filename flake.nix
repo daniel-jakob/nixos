@@ -10,6 +10,14 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     stylix.url = "github:danth/stylix";
+
+    # Deploy-rs
+    deploy-rs.url = "github:serokell/deploy-rs";
+    deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
+
+    # sops-nix
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -17,6 +25,8 @@
     , nixpkgs
     , stylix
     , home-manager
+    , deploy-rs
+    , sops-nix
     , ...
     } @ inputs:
     let
@@ -31,6 +41,7 @@
           # > Our main nixos configuration file <
           modules = [
             ./hosts/guppy
+            inputs.sops-nix.nixosModules.sops
             #stylix.nixosModules.stylix
           ];
         };
@@ -38,6 +49,7 @@
           specialArgs = { inherit inputs outputs; };
           modules = [
             ./hosts/gusto
+            inputs.sops-nix.nixosModules.sops
           ];
         };
       };
@@ -54,6 +66,7 @@
           # > Our main home-manager configuration file <
           modules = [
             ./home/daniel/guppy.nix
+            inputs.sops-nix.homeManagerModules.sops
             stylix.homeManagerModules.stylix
           ];
         };
@@ -66,6 +79,7 @@
           # > Our main home-manager configuration file <
           modules = [
             ./home/daniel/gusto.nix
+            inputs.sops-nix.homeManagerModules.sops
             # stylix.homeManagerModules.stylix # TODO: Do I need stylix on gusto? zsh? 
           ];
         };
@@ -78,9 +92,12 @@
           # > Our main home-manager configuration file <
           modules = [
             ./home/jakob/troll.nix
+            inputs.sops-nix.homeManagerModules.sops
             stylix.homeManagerModules.stylix
           ];
         };
       };
+
+      deploy.nodes = import ./deploy.nix { inherit self deploy-rs; };
     };
 }
