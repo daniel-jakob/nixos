@@ -21,6 +21,7 @@ let
     { name = "seerr";     port = 5055; }
     { name = "qbit";      port = 8080; middlewares = [ "qbit-security" ]; }
     { name = "vault";     port = 8222; }
+    { name = "obsidian";  port = 5984; localOnly = false; }
     { name = "hassio";    port = 8123; subdomain = "home"; host = devices.hassio.ip; }
     { name = "baikal";    port = 8008; subdomain = "calendar";}
     { name = "dawarich";  port = 3002; subdomain = "timeline"; }
