@@ -1,5 +1,7 @@
 { config, pkgs, lib, ... }:
-
+let
+  mediaDir = config.hostSpec.homelab.mediaDir;
+in
 {
   # Jellyseerr is a self-hosted media request management tool that integrates with Radarr and Sonarr
   services.seerr = {
@@ -54,10 +56,24 @@
     openFirewall = false;  # Reverse proxy port 9696
   };
 
-  # # Jackett
-  # services.jackett = {
-  #   enable = true;
-  #   group = "media";
-  #   port = 9117;  # Default port
-  # };
+  # oci container for feramance/qbitrr. 
+  virtualisation.oci-containers.containers = {
+    qbitrr = {
+      image = "feramance/qbitrr:latest";
+      autoStart = true;
+      
+      environment = {
+        TZ = "Europe/Berlin";
+      };
+
+      ports = [
+        "6969:6969"
+      ];
+
+      volumes = [
+        "/var/lib/qbitrr:/config"
+        "${mediaDir}/torrents:/completed_downloads:rw"
+      ];
+    };
+  };
 }
