@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ lib, config, pkgs, ... }:
 let
   myAliases = import ./aliases.nix;
 in
@@ -33,7 +33,14 @@ in
         #   compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-$ZSH_VERSION
 
         #   fastfetch
+        export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border --inline-info"
       '')
     ];
+  };
+
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+    tmux.enableShellIntegration = true;
   };
 }
