@@ -28,6 +28,7 @@ in
       ./homelab/navidrome.nix
       ./homelab/vaultwarden.nix
       ./homelab/dawarich.nix
+      ./homelab/minecraft.nix
     ];
 
   hostSpec = hostSpecAttrs;

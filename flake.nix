@@ -18,6 +18,9 @@
     # sops-nix
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Minecraft packaging/module overlay
+    nix-minecraft.url = "github:Infinidoge/nix-minecraft";
   };
 
   outputs =
@@ -27,6 +30,7 @@
     , home-manager
     , deploy-rs
     , sops-nix
+    , nix-minecraft
     , ...
     } @ inputs:
     let
