@@ -32,6 +32,7 @@ in
       ./homelab/isponsorblocktv.nix
       ./homelab/termix.nix
       ./homelab/minecraft.nix
+      ./homelab/ddclient.nix
     ];
 
   hostSpec = hostSpecAttrs;
