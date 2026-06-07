@@ -20,6 +20,7 @@ in
       ./homelab/immich.nix
       ./homelab/qbit.nix
       ./homelab/traefik.nix
+      ./homelab/auth.nix
       ./homelab/seer.nix
       ./homelab/paperless.nix
       ./homelab/blocky.nix
