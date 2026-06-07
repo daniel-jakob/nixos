@@ -63,7 +63,7 @@ in
       showGalleryTitle = true;
       showGalleryDescription = true;
       allowDownloadAll = 1;
-      allowSlugLinks = true;
+      allowSlugLinks = true; # enables custom short links /s/abc123
     };
   };
 }

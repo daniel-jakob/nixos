@@ -8,6 +8,7 @@ let
     { name = "jellyfin";  port = 8096; }
     { name = "immich";    port = 2283; subdomain = "photos"; priority = 1; }
     { name = "immich-public-proxy"; port = 2284; subdomain = "photos"; pathPrefix = "/share"; localOnly = false; priority = 2; }
+    { name = "immich-public-proxy-short"; port = 2284; subdomain = "photos"; pathPrefix = "/s"; localOnly = false; priority = 3; }
     { name = "mealie";    port = 9000; subdomain = "food"; }
     { name = "forgejo";   port = 3001; subdomain = "git"; }
     { name = "paperless"; port = 28981; }
@@ -26,6 +27,11 @@ let
     { name = "hassio";    port = 8123; subdomain = "home"; host = devices.hassio.ip; }
     { name = "baikal";    port = 8008; subdomain = "calendar";}
     { name = "dawarich";  port = 3002; subdomain = "timeline"; }
+    { name = "lldap";     port = 17170; subdomain = "ldap"; }
+    { name = "pocket-id"; port = 1411; subdomain = "id"; }
+    { name = "tinyauth";  port = 3000; subdomain = "auth"; }
+    { name = "auth-smoke-test"; port = 9080; subdomain = "auth-test"; middlewares = [ "tinyauth" ]; }
+    { name = "qbitrr";    port = 6969; subdomain = "qbitrr"; }
   ];
 
   traefikDefaults = {
@@ -125,6 +131,19 @@ in
               "192.168.1.0/24"    # Everything from 192.168.1.0 to 192.168.1.255
               "10.0.0.0/8"        # If you use VPNs like Tailscale
             ];
+          };
+
+          tinyauth = {
+            forwardAuth = {
+              address = "http://127.0.0.1:3000/api/auth/traefik";
+              trustForwardHeader = true;
+              authResponseHeaders = [
+                "Authorization"
+                "Remote-Email"
+                "Remote-Name"
+                "Remote-User"
+              ];
+            };
           };
         };
 
