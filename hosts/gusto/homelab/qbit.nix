@@ -3,16 +3,34 @@ let
   mediaDir = config.hostSpec.homelab.mediaDir;
 in
 {
+  sops.secrets.vpn_user = {
+    restartUnits = [ "podman-gluetun.service" ];
+  };
+
+  sops.secrets.vpn_pass = {
+    restartUnits = [ "podman-gluetun.service" ];
+  };
+
+  sops.templates.vpn_env = {
+    owner = "root";
+    group = "root";
+    mode = "0400";
+    content = ''
+      OPENVPN_USER=${config.sops.placeholder.vpn_user}
+      OPENVPN_PASSWORD=${config.sops.placeholder.vpn_pass}
+    '';
+  };
+
   # Enable OCI container support
   virtualisation.oci-containers.containers = {
-
     gluetun = {
       image = "docker.io/qmcgaw/gluetun:v3.40";
+      environmentFiles = [
+        config.sops.templates.vpn_env.path
+      ];
       environment = {
         VPN_SERVICE_PROVIDER = "surfshark";
         VPN_TYPE = "openvpn"; # or wireguard
-        OPENVPN_USER = "BdVgKj5FWZSLSWduj6kMcnbv";
-        OPENVPN_PASSWORD = "x8JLMSL54UetNHfbTjm9hNLh";
         TZ = "Europe/Berlin";
         SERVER_COUNTRIES = "Germany"; # or a comma-separated list
         DNS_ADDRESS = "162.252.172.57";
