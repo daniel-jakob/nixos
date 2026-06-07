@@ -8,7 +8,7 @@ in
     enable = true;
     settings = {
       # Listening port for DNS
-      ports.dns = 53;
+      ports.dns = "127.0.0.1:53,${devices.gusto.ip}:53,10.100.0.1:53";
 
       # Upstream DNS servers
       upstreams.groups.default = [

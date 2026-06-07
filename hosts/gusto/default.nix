@@ -99,6 +99,11 @@ in
           publicKey = "AYsoXHvJhhggl5petQKYPVE9tHsPiZeqWEHJA13yhVI=";
           allowedIPs = [ "10.100.0.3/32" ];
         }
+        {
+          # laptop
+          publicKey = "8JHk2iT1dUVjVEP5s3iXi0a6bmlAkR8gm6RP2LBagGo=";
+          allowedIPs = [ "10.100.0.4/32" ];
+        }
       ];
     };
   };
