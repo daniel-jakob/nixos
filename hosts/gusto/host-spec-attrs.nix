@@ -13,6 +13,7 @@
       modem.ip = "192.168.0.1";
       router.ip = "192.168.1.1";
       hassio.ip = "192.168.1.166";
+      tp-link-switch.ip = "192.168.1.199";
     };
   };
   stateVersion = "23.11";
