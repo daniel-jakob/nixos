@@ -180,7 +180,13 @@ rec {
     let
       hostRule = "Host(`${mkDomain { inherit baseDomain name subdomain domain; }}`)";
       rule = if pathPrefix != null then "${hostRule} && PathPrefix(`${pathPrefix}`)" else hostRule;
-      resolvedMiddlewares = unique ((optionals localOnly [ "local-only" ]) ++ middlewares);
+      
+      # Dynamically apply crowdsec-bouncer to public endpoints, local-only to private ones
+      resolvedMiddlewares = unique (
+        (optionals localOnly [ "local-only" ]) 
+        ++ (optionals (!localOnly) [ "crowdsec-bouncer" ]) 
+        ++ middlewares
+      );
     in
     {
       inherit name;

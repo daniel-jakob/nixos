@@ -69,6 +69,13 @@ in
     '';
   };
 
+  sops.secrets.crowdsec_bouncer_key = {
+    owner = "traefik";
+    group = "traefik";
+    mode = "0400";
+    restartUnits = [ "traefik.service" ];
+  };
+
   # Enable Traefik service
   services.traefik = {
     enable = true;
@@ -96,6 +103,24 @@ in
         storage = "${config.services.traefik.dataDir}/acme.json";
         dnsChallenge.provider = "cloudflare";
       };
+
+      # Pipe access logs directly to stdout/stderr so systemd journal catches them
+      accessLog = {
+        filePath = ""; # Leaving this empty strings routes it to stdout/stderr
+        format = "json";
+      };
+
+      # Optional: Standard operational logs formatted for easier parsing
+      log = {
+        level = "INFO";
+        format = "json";
+      };
+
+      # Register the bouncer plugin globally
+      experimental.plugins.crowdsec = {
+        moduleName = "github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin";
+        version = "v1.6.0"; # Uses the latest updated slog-compatible version
+      };
     };
 
     # Dynamic configuration
@@ -109,6 +134,26 @@ in
             redirectScheme = {
               scheme = "https";
               permanent = true;
+            };
+          };
+
+          crowdsec-bouncer = {
+            plugin.crowdsec = {
+              enabled = true;
+              crowdsecMode = "stream"; # Keeps banned IPs cached locally for blazing fast lookups
+              crowdsecLapiScheme = "http";
+              crowdsecLapiHost = "127.0.0.1:8080"; # Default local CrowdSec API port
+              
+              # Pull the bouncer API key dynamically from your sops secrets mapping
+              crowdsecLapiKey = config.sops.placeholder.crowdsec_bouncer_key; 
+              
+              # Ensure you trust the private network ranges your reverse proxy routes 
+              forwardedHeadersTrustedIps = [
+                "127.0.0.1/32"
+                "192.168.0.0/24"
+                "192.168.1.0/24"
+                "10.0.0.0/8"
+              ];
             };
           };
 
