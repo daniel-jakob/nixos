@@ -90,6 +90,8 @@ in
         websecure = {
           address = ":443";
         };
+
+        traefikapi.address = ":8082";
       };
 
       api = {
@@ -142,11 +144,10 @@ in
               enabled = true;
               crowdsecMode = "stream"; # Keeps banned IPs cached locally for blazing fast lookups
               crowdsecLapiScheme = "http";
-              crowdsecLapiHost = "127.0.0.1:8080"; # Default local CrowdSec API port
-              
-              # Pull the bouncer API key dynamically from your sops secrets mapping
-              crowdsecLapiKey = config.sops.placeholder.crowdsec_bouncer_key; 
-              
+              crowdsecLapiHost = "127.0.0.1:8083"; # Default local CrowdSec API port
+
+              crowdsecLapiKeyFile = config.sops.secrets.crowdsec_bouncer_key.path;
+
               # Ensure you trust the private network ranges your reverse proxy routes 
               forwardedHeadersTrustedIps = [
                 "127.0.0.1/32"
@@ -170,7 +171,7 @@ in
           };
 
           local-only = {
-            ipWhiteList.sourceRange = [
+            ipAllowList.sourceRange = [
               "127.0.0.1/32"      # the server itself
               "192.168.0.0/24"    # Everything from 192.168.0.0 to 192.168.0.255
               "192.168.1.0/24"    # Everything from 192.168.1.0 to 192.168.1.255
@@ -193,6 +194,11 @@ in
         };
 
         routers = generated.generatedRouters // {
+          traefik-api = {
+            entryPoints = [ "traefikapi" ];
+            rule = "PathPrefix(`/api`) || PathPrefix(`/dashboard`)";
+            service = "api@internal";
+          };
           redirect = {
             entryPoints = [ "web" ];
             rule = "HostRegexp(`.+`)";

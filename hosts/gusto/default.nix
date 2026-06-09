@@ -34,6 +34,7 @@ in
       ./homelab/termix.nix
       ./homelab/minecraft.nix
       ./homelab/ddclient.nix
+      ./homelab/crowdsec.nix
     ];
 
   hostSpec = hostSpecAttrs;
