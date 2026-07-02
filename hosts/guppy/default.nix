@@ -15,7 +15,6 @@
       ../common/optional/printing.nix
       ../common/optional/sddm.nix
       ../common/optional/fonts.nix
-      ../common/optional/wifi.nix
       ../common/optional/hyprland.nix
       ../common/optional/x11.nix
     ];
@@ -67,7 +66,7 @@
   };
 
   hardware = {
-    opengl.enable = true; # OpenGL
+    graphics.enable = true; # OpenGL
 
     # Most wayland compositors need this
     # nvidia.modesetting.enable = true;
@@ -83,7 +82,7 @@
       base16-schemes
       git
       firefox
-      swww # background wallpaper
+      awww # background wallpaper
       wl-clipboard
       home-manager
       libsForQt5.qt5.qtquickcontrols2 # for sddm theme
