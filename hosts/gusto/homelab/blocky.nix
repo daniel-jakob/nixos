@@ -42,6 +42,20 @@ in
     };
   };
 
+  # Allow blocky to bind its listeners (LAN IP, wg0) before those addresses
+  # are actually assigned; the sockets start receiving once the IPs appear.
+  # This eliminates the boot-ordering race that crashed blocky at startup.
+  boot.kernel.sysctl."net.ipv4.ip_nonlocal_bind" = 1;
+
+  # Safety net: if blocky ever loses a startup race, keep retrying for longer
+  # instead of hitting the restart limit and staying dead.
+  systemd.services.blocky = {
+    startLimitIntervalSec = 300;
+    startLimitBurst = 20;
+    serviceConfig.Restart = "on-failure";
+    serviceConfig.RestartSec = "5s";
+  };
+
   # Open firewall ports for DNS
   networking.firewall.allowedTCPPorts = [ 53 ];
   networking.firewall.allowedUDPPorts = [ 53 ];
