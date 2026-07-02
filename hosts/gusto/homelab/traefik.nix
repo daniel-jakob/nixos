@@ -25,13 +25,13 @@ let
     { name = "obsidian";  port = 5984; localOnly = false; }
     { name = "termix";    port = 6300; }
     { name = "hassio";    port = 8123; subdomain = "home"; host = devices.hassio.ip; }
-    { name = "baikal";    port = 8008; subdomain = "calendar";}
+    { name = "baikal";    port = 8008; subdomain = "cal";}
     { name = "dawarich";  port = 3002; subdomain = "timeline"; }
     { name = "lldap";     port = 17170; subdomain = "ldap"; }
     { name = "pocket-id"; port = 1411; subdomain = "id"; }
     { name = "tinyauth";  port = 3000; subdomain = "auth"; }
     { name = "auth-smoke-test"; port = 9080; subdomain = "auth-test"; middlewares = [ "tinyauth" ]; }
-    { name = "qbitrr";    port = 6969; subdomain = "qbitrr"; }
+    { name = "qbitrr";    port = 6969; }
     { name = "airtrail";  port = 6301; subdomain = "flights"; }
     { name = "trek";      port = 6302; }
   ];
