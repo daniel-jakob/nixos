@@ -31,7 +31,7 @@ in
       environment = {
         VPN_SERVICE_PROVIDER = "surfshark";
         VPN_TYPE = "openvpn"; # or wireguard
-        TZ = "Europe/Berlin";
+        TZ = config.hostSpec.timezone;
         SERVER_COUNTRIES = "Germany"; # or a comma-separated list
         DNS_ADDRESS = "162.252.172.57";
         FIREWALL_VPN_INPUT_PORTS = "6881"; # Torrent port
@@ -54,7 +54,7 @@ in
       environment = {
         PUID = "${toString config.users.users.qbit.uid}";
         PGID = "${toString config.users.groups.media.gid}";
-        TZ = "Europe/Berlin";
+        TZ = config.hostSpec.timezone;
         WEBUI_PORT = "8080";
       };
       volumes = [

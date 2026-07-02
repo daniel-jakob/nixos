@@ -63,7 +63,7 @@ in
       autoStart = true;
       
       environment = {
-        TZ = "Europe/Berlin";
+        TZ = config.hostSpec.timezone;
       };
 
       ports = [
