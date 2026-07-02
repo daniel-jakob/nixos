@@ -21,6 +21,10 @@
 
     # Minecraft packaging/module overlay
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
+
+    # Comma (nix-index-database)
+    nix-index-database.url = "github:nix-community/nix-index-database";
+    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -53,7 +57,8 @@
           specialArgs = { inherit inputs outputs; };
           modules = [
             ./hosts/gusto
-            inputs.sops-nix.nixosModules.sops
+            inputs.sops-nix.nixosModules.sops#
+            inputs.nix-index-database.nixosModules.nix-index
           ];
         };
       };

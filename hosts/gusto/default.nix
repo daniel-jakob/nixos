@@ -14,6 +14,7 @@ in
       ../common/core
       ../common/optional/fonts.nix
       ../common/optional/nixpkgs-insecure-pkgs.nix # (temp, hopefully) sonarr fix
+      ../common/optional/comma.nix
     ]
     ++ lib.optionals (hostSpecAttrs.isHomelab or false) [
       ./homelab/jellyfin.nix
@@ -55,7 +56,6 @@ in
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     ncurses
-    comma
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
