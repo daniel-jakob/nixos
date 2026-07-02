@@ -34,6 +34,7 @@ in
         "modem.lan" = devices.modem.ip;
         "router.lan" = devices.router.ip;
         "hassio.lan" = devices.hassio.ip;
+        "guppy.lan" = devices.guppy.ip;
         "tp-link-switch.lan" = devices."tp-link-switch".ip;
         "${domain}" = devices.gusto.ip;
         "*.${domain}" = devices.gusto.ip;
