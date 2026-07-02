@@ -105,7 +105,13 @@ in
       certificatesResolvers.letsencrypt.acme = {
         email = config.hostSpec.email.personal;
         storage = "${config.services.traefik.dataDir}/acme.json";
-        dnsChallenge.provider = "cloudflare";
+        dnsChallenge = {
+          provider = "cloudflare";
+          # blocky (gusto's resolver) split-horizons jakob.ie to a LAN IP and
+          # returns no SOA, which breaks lego's zone detection (it walks up to
+          # `ie.`). Force ACME DNS-01 lookups to a public resolver instead.
+          resolvers = [ "1.1.1.1:53" "1.0.0.1:53" ];
+        };
       };
 
       # Pipe access logs directly to stdout/stderr so systemd journal catches them
