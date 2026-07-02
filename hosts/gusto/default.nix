@@ -36,6 +36,8 @@ in
       ./homelab/minecraft.nix
       ./homelab/ddclient.nix
       ./homelab/crowdsec.nix
+      ./homelab/airtrail.nix
+      ./homelab/trek.nix
     ];
 
   hostSpec = hostSpecAttrs;

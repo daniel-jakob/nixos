@@ -32,6 +32,8 @@ let
     { name = "tinyauth";  port = 3000; subdomain = "auth"; }
     { name = "auth-smoke-test"; port = 9080; subdomain = "auth-test"; middlewares = [ "tinyauth" ]; }
     { name = "qbitrr";    port = 6969; subdomain = "qbitrr"; }
+    { name = "airtrail";  port = 6301; subdomain = "flights"; }
+    { name = "trek";      port = 6302; }
   ];
 
   traefikDefaults = {
