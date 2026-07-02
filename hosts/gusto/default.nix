@@ -52,6 +52,12 @@ in
     };
   };
 
+  fileSystems."/media" = {
+    device = "/dev/disk/by-label/homelab-media";
+    fsType = "ext4";
+    options = [ "nofail" "defaults" ];
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
